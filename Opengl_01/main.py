@@ -5,6 +5,7 @@ from model import *
 from camera import Camera
 from light import Light
 
+#main function
 class GraphicsEngine:
     def __init__(self, win_size=(1280,720)):
         # init pygame modules
