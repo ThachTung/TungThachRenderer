@@ -57,16 +57,15 @@ class Camera:
         if keys[pg.K_s]:
             self.position -= self.forward * velocity
         if keys[pg.K_a]:
-            self.position += self.right * velocity
-        if keys[pg.K_d]:
             self.position -= self.right * velocity
+        if keys[pg.K_d]:
+            self.position += self.right * velocity
         if keys[pg.K_q]:
             self.position += self.up * velocity
         if keys[pg.K_e]:
             self.position -= self.up * velocity
 
     def get_view_matrix(self):
-        #return glm.lookAt(self.position, self.position + self.forward, self.up)
         return glm.lookAt(self.position, self.position + self.forward, self.up)
 
     def get_projection_matrix(self):

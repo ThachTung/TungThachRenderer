@@ -35,7 +35,6 @@ vec3 getLight(vec3 color)
     float spec = pow(max(dot(viewDir,reflectDir),0),32);
     vec3 specular = spec * light.Is;
 
-
     return color * (ambient + diffuse + specular);
 }
 

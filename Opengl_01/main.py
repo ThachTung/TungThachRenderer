@@ -34,12 +34,11 @@ class GraphicsEngine:
 
         #light
         self.light = Light()
-
         #camera
         self.camera= Camera(self)
-
         #scene
-        self.scene = Cube(self)
+        #self.scene = Cube(self)
+        self.scene = Cat(self)
 
     def check_events(self):
         for event in pg.event.get():
@@ -51,10 +50,8 @@ class GraphicsEngine:
     def render(self):
         #clear framebuffer
         self.ctx.clear(color=(0.08, 0.16, 0.18))
-
         #render scene
         self.scene.render()
-
         #swap buffer
         pg.display.flip()
     
