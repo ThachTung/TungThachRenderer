@@ -3,7 +3,6 @@ import glm
 import pygame as pg
 import moderngl as mgl
 import pywavefront
-from PIL import Image
 
 
 # class Cube:
@@ -145,7 +144,7 @@ class Cat:
         # self.texture = self.get_texture(path='Opengl_01/textures/uvchecker.jpg')
         # for windows projects
         self.texture = self.get_texture(path='models/wall_c.png')
-        self.normal_texture = self.textureTest(path='models/wall_n.png')
+        self.normal_texture = self.get_texture(path='models/wall_n.png')
         self.on_init()
 
     def get_texture(self, path):
@@ -159,11 +158,6 @@ class Cat:
 
         # AF
         texture.anisotropy = 32.0
-        return texture
-    def textureTest(self,path):
-        texture = Image.open(path).convert('RGB').transpose(Image.FLIP_TOP_BOTTOM)
-        texture = self.ctx.texture(texture.size,3,texture.tobytes())
-        texture.build_mipmaps()
         return texture
     def update(self):
         rot = (0, 0, 0)
@@ -186,7 +180,8 @@ class Cat:
 
         self.shader_program['u_texture'].value = 0
         self.shader_program['nTexture'].value = 1
-        self.normal_texture.use(0)
+        self.texture.use(location=0)
+        self.normal_texture.use(location=1)
         #self.shader_program['n_texture'] = 0
         #self.array_texture[0].use(location=0)
 

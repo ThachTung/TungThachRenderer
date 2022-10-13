@@ -45,9 +45,11 @@ void main ()
 {
     float gamma = 2.2;
     vec3 color = texture(u_texture,uv_0).rgb;
+    vec3 color2 = texture(nTexture,uv_0).rgb;
     color = pow(color,vec3(gamma));
     color = getLight(color);
 
     color = pow(color,1/vec3(gamma));
+    color = color * color2;
     fragColor = vec4 (color,1.0);
 }
