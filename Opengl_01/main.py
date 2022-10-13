@@ -18,10 +18,7 @@ class GraphicsEngine:
         pg.display.gl_set_attribute(pg.GL_CONTEXT_PROFILE_MASK, pg.GL_CONTEXT_PROFILE_CORE)
         #create opengl context
         pg.display.set_mode(self.WIN_SIZE, flags=pg.OPENGL | pg.DOUBLEBUF)
-        #mouse settings
-        pg.event.set_grab(True)
-        pg.mouse.set_visible(False)
-        
+
         #detect and use existing opengl context
         self.ctx = mgl.create_context()
         #enable flag for seeing outside of cube
@@ -46,7 +43,7 @@ class GraphicsEngine:
                 self.scene.destroy()
                 pg.quit()
                 sys.exit()
-    
+
     def render(self):
         #clear framebuffer
         self.ctx.clear(color=(0.08, 0.16, 0.18))
@@ -54,7 +51,7 @@ class GraphicsEngine:
         self.scene.render()
         #swap buffer
         pg.display.flip()
-    
+
     def get_time(self):
         self.time = pg.time.get_ticks() * 0.001
 
@@ -121,7 +118,7 @@ if __name__ == '__main__':
 
 
 
- 
+
 
 
 

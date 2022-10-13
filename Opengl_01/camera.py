@@ -5,7 +5,7 @@ FOV = 50 #deg
 NEAR = 0.1
 FAR = 100
 SPEED = 0.01
-SENSITIVE = 0.001
+SENSITIVE = 0.1
 
 class Camera:
     def __init__(self, app, position=(0,0,4),yaw=-90,pitch=0):
@@ -28,15 +28,9 @@ class Camera:
     
     def update(self):
         self.move()
-        self.rotate()
         self.update_camera_vectors()
         self.m_view = self.get_view_matrix()
 
-    def rotate(self):
-        rel_x, rel_y = pg.mouse.get_rel()
-        self.yaw += rel_x * SENSITIVE
-        self.pitch -= rel_y * SENSITIVE
-        self.pitch = max(-89,min(89,self.pitch))
 
     def update_camera_vectors(self):
         yaw, pitch = glm.radians(self.yaw), glm.radians(self.pitch)
@@ -51,19 +45,28 @@ class Camera:
 
     def move(self):
         velocity = SPEED * self.app.delta_time
+        rel_x, rel_y = pg.mouse.get_rel()
+        mouses = pg.mouse.get_pressed(num_buttons=3)
         keys = pg.key.get_pressed()
-        if keys[pg.K_w]:
-            self.position += self.forward * velocity
-        if keys[pg.K_s]:
-            self.position -= self.forward * velocity
+        if keys[pg.K_LALT] and mouses[2]== True:
+            self.position += self.forward * velocity * rel_x * SENSITIVE
+        if keys[pg.K_LALT] and mouses[0]== True:
+            self.yaw += rel_x * SENSITIVE * velocity
+            self.pitch -= rel_y * SENSITIVE * velocity * 0.05
+            # self.pitch = max(-89, min(89, self.pitch))
         if keys[pg.K_a]:
             self.position -= self.right * velocity
         if keys[pg.K_d]:
             self.position += self.right * velocity
-        if keys[pg.K_q]:
-            self.position += self.up * velocity
-        if keys[pg.K_e]:
-            self.position -= self.up * velocity
+        if keys[pg.K_LALT] and mouses[1] == True:
+            self.position += self.up * velocity * rel_x * SENSITIVE
+        if mouses[0] == True or mouses[1] == True or mouses[2] == True:
+            # mouse settings
+            pg.event.set_grab(True)
+            pg.mouse.set_visible(False)
+        else:
+            pg.event.set_grab(False)
+            pg.mouse.set_visible(True)
 
     def get_view_matrix(self):
         return glm.lookAt(self.position, self.position + self.forward, self.up)

@@ -14,11 +14,14 @@ struct Light {
 };
 
 uniform sampler2D u_texture;
+uniform sampler2D nTexture;
+
 uniform Light light;
 uniform vec3 camPos;
 
 vec3 getLight(vec3 color)
 {
+    //backup
     vec3 Normal = normalize(normal);
 
     //ambient light
