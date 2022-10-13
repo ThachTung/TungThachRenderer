@@ -1,0 +1,15 @@
+{
+  "created_at": "2022-10-13T19:10:57.500595",
+  "version": "0.1",
+  "mtllibs": [
+    "wall.mtl"
+  ],
+  "vertex_buffers": [
+    {
+      "material": "Default_OBJ",
+      "vertex_format": "T2F_N3F_V3F",
+      "byte_offset": 0,
+      "byte_length": 213696
+    }
+  ]
+}
