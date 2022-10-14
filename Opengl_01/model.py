@@ -143,17 +143,17 @@ class Cat:
         # for linux projects
         # self.texture = self.get_texture(path='Opengl_01/textures/uvchecker.jpg')
         # for windows projects
-        self.texture = self.get_texture(path='models/wall_c.png')
-        self.normal_texture = self.get_texture(path='models/wall_n.png')
+        self.texture = self.get_texture(path='Opengl_01/models/wall_c.png')
+        self.normal_texture = self.get_texture(path='Opengl_01/models/wall_n.png')
         self.on_init()
 
     def get_texture(self, path):
         texture = pg.image.load(path).convert()
         texture = pg.transform.flip(texture, flip_x=False, flip_y=True)
-        #texture.fill('red')
+
         texture = self.ctx.texture(size=texture.get_size(), components=3,
                                    data=pg.image.tostring(texture, 'RGB'))
-        texture.filter = (mgl.LINEAR_MIPMAP_LINEAR, mgl.LINEAR)
+        texture.filter = (mgl.NEAREST_MIPMAP_LINEAR, mgl.LINEAR)
         texture.build_mipmaps()
 
         # AF
