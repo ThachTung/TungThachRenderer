@@ -206,7 +206,7 @@ class Cat:
         return vao
 
     def get_vertex_data(self):
-        objs = pywavefront.Wavefront('models/wall.obj', cache=True, parse=True)
+        objs = pywavefront.Wavefront('Opengl_01/models/wall.obj', cache=True, parse=True)
         obj = objs.materials.popitem()[1]
         vertex_data = obj.vertices
         vertex_data = np.array(vertex_data, dtype='f4')
@@ -224,14 +224,14 @@ class Cat:
 
     def get_shader_program(self, shader_name):
         # for linux project
-        # with open(f'Opengl_01/shaders/{shader_name}.vert') as file:
+        with open(f'Opengl_01/shaders/{shader_name}.vert') as file:
         # for windows project
-        with open(f'shaders/{shader_name}.vert') as file:
+        #with open(f'shaders/{shader_name}.vert') as file:
             vertex_shader = file.read()
         # for linux project
-        # with open(f'Opengl_01/shaders/{shader_name}.frag') as file:
+        with open(f'Opengl_01/shaders/{shader_name}.frag') as file:
         # for windows project
-        with open(f'shaders/{shader_name}.frag') as file:
+        #with open(f'shaders/{shader_name}.frag') as file:
             fragment_shader = file.read()
 
         program = self.ctx.program(vertex_shader=vertex_shader, fragment_shader=fragment_shader)
