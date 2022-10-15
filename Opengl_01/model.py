@@ -3,7 +3,7 @@ import glm
 import pygame as pg
 import moderngl as mgl
 import pywavefront
-import pyassimp
+#import pyassimp
 
 class Model:
     def __init__(self, app):
@@ -26,7 +26,7 @@ class Model:
 
         texture = self.ctx.texture(size=texture.get_size(), components=3,
                                    data=pg.image.tostring(texture, 'RGB'))
-        texture.filter = (mgl.NEAREST_MIPMAP_LINEAR, mgl.LINEAR)
+        texture.filter = (mgl.LINEAR_MIPMAP_LINEAR, mgl.LINEAR)
         texture.build_mipmaps()
 
         # AF
@@ -80,7 +80,7 @@ class Model:
 
     def get_vertex_data(self):
         #use pyassimp for calculate tangent, bitangent
-        mesh = pyassimp.load('Opengl_01/models/wall.obj',processing=pyassimp.postprocess.aiProcess_Triangulate | pyassimp.postprocess.aiProcess_CalcTangentSpace)
+        #mesh = pyassimp.load('Opengl_01/models/wall.obj',processing=pyassimp.postprocess.aiProcess_Triangulate | pyassimp.postprocess.aiProcess_CalcTangentSpace)
 
         objs = pywavefront.Wavefront('Opengl_01/models/wall.obj', cache=True, parse=True)
         obj = objs.materials.popitem()[1]
