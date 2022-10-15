@@ -69,6 +69,44 @@ vec3 getLight(vec3 color, vec3 nColor)
 
 void main ()
 {
+    // vec3 N = normalize(normal);
+    // vec3 V = normalize(camPos-WorldPos);
+
+    // vec3 baseReflectivity = mix(vec3(0.04),texture(u_texture,uv_0).rgb,texture(m_texture,uv_0).rgb)
+
+    // vec3 Lo = vec3(0,0);
+
+    // for(int i = 0; i<4; ++i)
+    // {
+    //     vec3 L = normalize(lightPosition[i]-WorldPos);
+    //     vec3 H = normalize(V + L);
+    //     float distance = length(lightPosition[i] - WorldPos);
+    //     float attenuation = 1.0/(distance*distance);
+    //     vec3 radiance = lightColors[i] * attenuation;
+
+    //     float NdotV = max(dot(N,V),0.0000001);
+    //     float NdotL = max(dot(N,L),0.0000001);
+    //     float HdotV = max(dot(H,V),0.0);
+    //     float NdotH = max(dot(N,H),0.0);
+
+    //     float D = distributionGGX(NdotH,roughness);
+    //     float G = geometrySmith(NdotV,NdotL,roughness);
+    //     vec3 F = fresnelSchlick(HdotV,baseReflectivity);
+
+    //     vec3 specular = D * G * F;
+    //     specular /= 4.0 * NdotV * NdotL;
+
+    //     vec3 kD = vec3(1.0) - F;
+    //     kD *= 1.0 - metallic;
+    //     Lo += (kD *albedo/Pi + specular) * radiance * NdotL;
+    // }
+
+    // vec3 ambient = vec3(0.03) * albedo;
+    // vec3 color = ambient + Lo;
+    // color = color / (color + vec3(1.0));
+    // color = pow(color,vec3(1.0/2.2));
+    // fragColor = vec4(color, 1.0);
+
     float gamma = 2.2;
     vec3 color = texture(u_texture,uv_0).rgb;
     vec3 nColor = texture(n_texture,uv_0).rgb;
