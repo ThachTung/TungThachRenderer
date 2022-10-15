@@ -14,15 +14,14 @@ struct Light {
 };
 
 uniform sampler2D u_texture;
-uniform sampler2D nTexture;
+uniform sampler2D n_texture;
 
 uniform Light light;
 uniform vec3 camPos;
 
-vec3 getLight(vec3 color)
+vec3 getLight(vec3 color, vec3 nColor)
 {
-    //backup
-    vec3 Normal = normalize(normal);
+    vec3 Normal = normalize(normal+(nColor*2.0f - 1.0f));
 
     //ambient light
     vec3 ambient = light.Ia;
@@ -45,11 +44,9 @@ void main ()
 {
     float gamma = 2.2;
     vec3 color = texture(u_texture,uv_0).rgb;
-    vec3 color2 = texture(nTexture,uv_0).rgb;
+    vec3 nColor = texture(n_texture,uv_0).rgb;
     color = pow(color,vec3(gamma));
-    color = getLight(color);
-
+    color = getLight(color,nColor);
     color = pow(color,1/vec3(gamma));
-    color = color * color2;
     fragColor = vec4 (color,1.0);
 }
