@@ -18,6 +18,7 @@ class Model:
         # for windows projects
         self.texture = self.get_texture(path='Opengl_01/models/wall_c.png')
         self.normal_texture = self.get_texture(path='Opengl_01/models/wall_n.png')
+        self.roughness_texture = self.get_texture(path='Opengl_01/models/wall_r.png')
         self.on_init()
 
     def get_texture(self, path):
@@ -52,14 +53,13 @@ class Model:
 
 
         self.shader_program['u_texture'].value = 0
-        self.shader_program['n_texture'].value = 1
+        self.shader_program['n_texture'].value = 0
+        # self.shader_program['r_texture'].value = 2
+        # self.shader_program['m_texture'].value = 0
         self.texture.use(location=0)
         self.normal_texture.use(location=1)
-        #self.shader_program['n_texture'] = 0
-        #self.array_texture[0].use(location=0)
-
-        #
-
+        # self.roughness_texture.use(location=2)
+  
         self.shader_program['m_proj'].write(self.app.camera.m_proj)
         self.shader_program['m_view'].write(self.app.camera.m_view)
         self.shader_program['m_model'].write(self.m_model)
