@@ -6,6 +6,6 @@ class Light:
         self.color = glm.vec3(color)
 
         #intensitives
-        self.Ia = self.color * 0.8 #ambient
-        self.Id = self.color * 0.5 #diffuse
+        self.Ia = self.color * 0.5 #ambient
+        self.Id = self.color * 10 #diffuse
         self.Is = self.color * 1.0 #specular

@@ -48,14 +48,13 @@ class Camera:
         rel_x, rel_y = pg.mouse.get_rel()
         mouses = pg.mouse.get_pressed(num_buttons=3)
         keys = pg.key.get_pressed()
-        pg.event.set_grab(True)
-        pg.mouse.set_visible(True)
-        if keys[pg.K_LALT] and mouses[2]== True:
+   
+        if keys[pg.K_LALT] and mouses[2]:
             self.position += self.forward * velocity * rel_x * SENSITIVE
-        if keys[pg.K_LALT] and mouses[0]== True:
+        if keys[pg.K_LALT] and mouses[0]:
             self.yaw += rel_x * SENSITIVE * velocity
             self.pitch -= rel_y * SENSITIVE * velocity * 0.05
-        if keys[pg.K_LALT] and mouses[1] == True:
+        if keys[pg.K_LALT] and mouses[1]:
             self.position += (self.up * velocity * (-rel_y) * SENSITIVE + self.right * velocity * SENSITIVE * rel_x)
 
     def get_view_matrix(self):

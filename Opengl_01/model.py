@@ -53,12 +53,12 @@ class Model:
 
 
         self.shader_program['u_texture'].value = 0
-        self.shader_program['n_texture'].value = 0
-        # self.shader_program['r_texture'].value = 2
-        # self.shader_program['m_texture'].value = 0
+        self.shader_program['n_texture'].value = 1
+        self.shader_program['r_texture'].value = 2
+
         self.texture.use(location=0)
         self.normal_texture.use(location=1)
-        # self.roughness_texture.use(location=2)
+        self.roughness_texture.use(location=2)
   
         self.shader_program['m_proj'].write(self.app.camera.m_proj)
         self.shader_program['m_view'].write(self.app.camera.m_view)
@@ -86,6 +86,87 @@ class Model:
         obj = objs.materials.popitem()[1]
         vertex_data = obj.vertices
         vertex_data = np.array(vertex_data, dtype='f4')
+        return vertex_data
+
+    def get_vbo(self):
+        vertex_data = self.get_vertex_data()
+        vbo = self.ctx.buffer(vertex_data)
+        return vbo
+
+    def get_shader_program(self, shader_name):
+        # for linux project
+        with open(f'Opengl_01/shaders/{shader_name}.vert') as file:
+        # for windows project
+        #with open(f'shaders/{shader_name}.vert') as file:
+            vertex_shader = file.read()
+        # for linux project
+        with open(f'Opengl_01/shaders/{shader_name}.frag') as file:
+        # for windows project
+        #with open(f'shaders/{shader_name}.frag') as file:
+            fragment_shader = file.read()
+
+        program = self.ctx.program(vertex_shader=vertex_shader, fragment_shader=fragment_shader)
+        return program
+
+class Skybox:
+    def __init__(self, app):
+        self.app = app
+        self.ctx = app.ctx
+        self.vbo = self.get_vbo()
+        self.shader_program = self.get_shader_program('skybox')
+        self.vao = self.get_vao()
+        self.texture = self.get_texture_cube(dir_path='Opengl_01/textures/skybox/', ext='png')
+        self.on_init()
+
+    def get_texture_cube(self, dir_path, ext='png'):
+        faces = ['right', 'left', 'top', 'bottom'] + ['front', 'back'][::-1]
+        # textures = [pg.image.load(dir_path + f'{face}.{ext}').convert() for face in faces]
+        textures = []
+        for face in faces:
+            texture = pg.image.load(dir_path + f'{face}.{ext}').convert()
+            if face in ['right', 'left', 'front', 'back']:
+                texture = pg.transform.flip(texture, flip_x=True, flip_y=False)
+            else:
+                texture = pg.transform.flip(texture, flip_x=False, flip_y=True)
+            textures.append(texture)
+
+        size = textures[0].get_size()
+        texture_cube = self.ctx.texture_cube(size=size, components=3, data=None)
+
+        for i in range(6):
+            texture_data = pg.image.tostring(textures[i], 'RGB')
+            texture_cube.write(face=i, data=texture_data)
+
+        return texture_cube
+
+    def update(self):
+        m_view = glm.mat4(glm.mat3(self.app.camera.m_view))
+        self.shader_program['m_invProjView'].write(glm.inverse(self.app.camera.m_proj * m_view))
+
+    def on_init(self):
+        self.shader_program['u_texture_skybox'] = 0
+        self.texture.use(location=0)
+
+    def render(self):
+        self.update()
+        self.vao.render()
+
+    def destroy(self):
+        self.vbo.release()
+        self.shader_program.release()
+        self.vao.release()
+
+
+    def get_vao(self):
+        vao = self.ctx.vertex_array(self.shader_program,
+                                    [(self.vbo, '3f','in_position')])
+        return vao
+
+    def get_vertex_data(self):
+        # in clip space
+        z = 0.9999
+        vertices = [(-1, -1, z), (3, -1, z), (-1, 3, z)]
+        vertex_data = np.array(vertices, dtype='f4')
         return vertex_data
 
     def get_vbo(self):

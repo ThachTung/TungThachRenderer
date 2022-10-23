@@ -19,6 +19,9 @@ class GraphicsEngine:
         #create opengl context
         pg.display.set_mode(self.WIN_SIZE, flags=pg.OPENGL | pg.DOUBLEBUF)
 
+        pg.event.set_grab(True)
+        pg.mouse.set_visible(False)
+
         #detect and use existing opengl context
         self.ctx = mgl.create_context()
         #enable flag for seeing outside of cube
@@ -35,6 +38,7 @@ class GraphicsEngine:
         self.camera= Camera(self)
         #scene
         self.scene = Model(self)
+        self.skybox = Skybox(self)
 
     def check_events(self):
         for event in pg.event.get():
@@ -48,6 +52,7 @@ class GraphicsEngine:
         self.ctx.clear(color=(0.08, 0.16, 0.18))
         #render scene
         self.scene.render()
+        self.skybox.render()
         #swap buffer
         pg.display.flip()
 
