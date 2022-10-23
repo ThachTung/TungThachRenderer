@@ -7,5 +7,5 @@ class Light:
 
         #intensitives
         self.Ia = self.color * 0.5 #ambient
-        self.Id = self.color * 10 #diffuse
-        self.Is = self.color * 1.0 #specular
+        self.Id = self.color * 100.0 #diffuse
+        self.Is = self.color * 0.0 #specular

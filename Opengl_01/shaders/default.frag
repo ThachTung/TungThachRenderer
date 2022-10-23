@@ -107,7 +107,13 @@ void main ()
     }
 
     vec3 ambient = light.Ia * texture(u_texture,uv_0).rgb;
-    vec3 color = ambient + dirLighting;
+
+    vec3 lightDir = normalize(light.position - fragPos);
+    vec3 reflectDir = reflect(-lightDir,N);
+    float spec = pow(max(dot(V,reflectDir),ZeroAvoid),metallic);
+    vec3 specular = spec * light.Is;
+
+    vec3 color = ambient + dirLighting + specular;
     //base gamma adjust. if gamma is fixed, base color will be more brighter.
     //should be enabled when using phong/blinn.
     //should be disabled when using ue shading.
