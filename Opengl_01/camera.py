@@ -53,7 +53,7 @@ class Camera:
             self.position += self.forward * velocity * rel_x * SENSITIVE
         if keys[pg.K_LALT] and mouses[0]:
             self.yaw += rel_x * SENSITIVE * velocity
-            self.pitch -= rel_y * SENSITIVE * velocity * 0.05
+            self.pitch +=  rel_y * SENSITIVE * velocity * 0.05
         if keys[pg.K_LALT] and mouses[1]:
             self.position += (self.up * velocity * (-rel_y) * SENSITIVE + self.right * velocity * SENSITIVE * rel_x)
 

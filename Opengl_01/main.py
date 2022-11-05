@@ -64,6 +64,7 @@ class GraphicsEngine:
             self.get_time()
             self.check_events()
             self.camera.update()
+            self.light.light_change()
             self.render()
             self.delta_time = self.clock.tick(60)
 

@@ -36,6 +36,7 @@ class Model:
     def update(self):
         rot = (0, 0, 0)
         m_model = glm.rotate(self.m_model, rot[0], glm.vec3(1, 0, 0))
+        self.shader_program['light.Id'].write(self.app.light.Id)
         self.shader_program['m_model'].write(m_model)
         self.shader_program['m_view'].write(self.app.camera.m_view)
         self.shader_program['camPos'].write(self.app.camera.position)
