@@ -3,22 +3,23 @@ import glm
 import pygame as pg
 import moderngl as mgl
 import pywavefront
+from shader import Shader
+from buffer import VertexBuffer
 #import pyassimp
 
 class Model:
     def __init__(self, app):
         self.app = app
         self.ctx = app.ctx
-        self.vbo = self.get_vbo()
+        self.shader_instance = Shader(self)
+        self.vertices_buffer_instance = VertexBuffer(self)
+        self.vertices_buffer = self.get_vertices_buffer()
         self.shader_program = self.get_shader_program('default')
-        self.vao = self.get_vao()
+        self.vertices_array = self.get_vertices_array()
         self.m_model = self.get_model_matrix()
-        # for linux projects
-        # self.texture = self.get_texture(path='Opengl_01/textures/uvchecker.jpg')
-        # for windows projects
-        self.texture = self.get_texture(path='Opengl_01/models/wall_c.png')
-        self.normal_texture = self.get_texture(path='Opengl_01/models/wall_n.png')
-        self.roughness_texture = self.get_texture(path='Opengl_01/models/wall_r.png')
+        self.texture = self.get_texture(path='models/wall_c.png')
+        self.normal_texture = self.get_texture(path='models/wall_n.png')
+        self.roughness_texture = self.get_texture(path='models/wall_r.png')
         self.on_init()
 
     def get_texture(self, path):
@@ -67,47 +68,28 @@ class Model:
 
     def render(self):
         self.update()
-        self.vao.render()
+        self.vertices_array.render()
 
     def destroy(self):
-        self.vbo.release()
+        self.vertices_buffer.release()
         self.shader_program.release()
-        self.vao.release()
-
-    def get_vao(self):
-        vao = self.ctx.vertex_array(self.shader_program,
-                                    [(self.vbo, '2f 3f 3f', 'in_texcoord_0', 'in_normal', 'in_position')])
-        return vao
-
-    def get_vertex_data(self):
-        #use pyassimp for calculate tangent, bitangent
-        #mesh = pyassimp.load('Opengl_01/models/wall.obj',processing=pyassimp.postprocess.aiProcess_Triangulate | pyassimp.postprocess.aiProcess_CalcTangentSpace)
-
-        objs = pywavefront.Wavefront('Opengl_01/models/wall.obj', cache=True, parse=True)
-        obj = objs.materials.popitem()[1]
-        vertex_data = obj.vertices
-        vertex_data = np.array(vertex_data, dtype='f4')
-        return vertex_data
-
-    def get_vbo(self):
-        vertex_data = self.get_vertex_data()
-        vbo = self.ctx.buffer(vertex_data)
-        return vbo
+        self.vertices_array.release()
 
     def get_shader_program(self, shader_name):
-        # for linux project
-        with open(f'Opengl_01/shaders/{shader_name}.vert') as file:
-        # for windows project
-        #with open(f'shaders/{shader_name}.vert') as file:
-            vertex_shader = file.read()
-        # for linux project
-        with open(f'Opengl_01/shaders/{shader_name}.frag') as file:
-        # for windows project
-        #with open(f'shaders/{shader_name}.frag') as file:
-            fragment_shader = file.read()
-
-        program = self.ctx.program(vertex_shader=vertex_shader, fragment_shader=fragment_shader)
+        program = self.shader_instance.get_shader_name(shader_name)
         return program
+
+    def get_vertices(self):
+        vertices_data = self.shader_instance.get_vertex_model('models/wall.obj')
+        return vertices_data
+
+    def get_vertices_buffer(self):
+        vertices_buffer = self.vertices_buffer_instance.get_vertices_buffer(self.get_vertices())
+        return vertices_buffer
+
+    def get_vertices_array(self):
+        vertices_array = self.vertices_buffer_instance.get_vertices_array(self.shader_program, self.vertices_buffer)
+        return vertices_array
 
 class Skybox:
     def __init__(self, app):
@@ -116,7 +98,7 @@ class Skybox:
         self.vbo = self.get_vbo()
         self.shader_program = self.get_shader_program('skybox')
         self.vao = self.get_vao()
-        self.texture = self.get_texture_cube(dir_path='Opengl_01/textures/skybox/', ext='png')
+        self.texture = self.get_texture_cube(dir_path='textures/skybox/', ext='png')
         self.on_init()
 
     def get_texture_cube(self, dir_path, ext='png'):
@@ -177,12 +159,12 @@ class Skybox:
 
     def get_shader_program(self, shader_name):
         # for linux project
-        with open(f'Opengl_01/shaders/{shader_name}.vert') as file:
+        with open(f'shaders/{shader_name}.vert') as file:
         # for windows project
         #with open(f'shaders/{shader_name}.vert') as file:
             vertex_shader = file.read()
         # for linux project
-        with open(f'Opengl_01/shaders/{shader_name}.frag') as file:
+        with open(f'shaders/{shader_name}.frag') as file:
         # for windows project
         #with open(f'shaders/{shader_name}.frag') as file:
             fragment_shader = file.read()
