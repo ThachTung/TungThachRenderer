@@ -1,5 +1,5 @@
-import pygame as pg
-import moderngl as mgl
+import pygame
+import moderngl
 import sys
 from model import *
 from camera import Camera
@@ -8,57 +8,44 @@ from light import Light
 #main function
 class GraphicsEngine:
     def __init__(self, win_size=(1280,720)):
-        # init pygame modules
-        pg.init()
-        # window size
+        pygame.init()
         self.WIN_SIZE = win_size
-        #set opengl attr
-        pg.display.gl_set_attribute(pg.GL_CONTEXT_MAJOR_VERSION, 3)
-        pg.display.gl_set_attribute(pg.GL_CONTEXT_MINOR_VERSION, 3)
-        pg.display.gl_set_attribute(pg.GL_CONTEXT_PROFILE_MASK, pg.GL_CONTEXT_PROFILE_CORE)
-        #create opengl context
-        pg.display.set_mode(self.WIN_SIZE, flags=pg.OPENGL | pg.DOUBLEBUF)
 
-        pg.event.set_grab(True)
-        pg.mouse.set_visible(False)
+        pygame.display.gl_set_attribute(pygame.GL_CONTEXT_MAJOR_VERSION, 3)
+        pygame.display.gl_set_attribute(pygame.GL_CONTEXT_MINOR_VERSION, 3)
+        pygame.display.gl_set_attribute(pygame.GL_CONTEXT_PROFILE_MASK, pygame.GL_CONTEXT_PROFILE_CORE)
 
-        #detect and use existing opengl context
-        self.ctx = mgl.create_context()
+        pygame.display.set_mode(self.WIN_SIZE, flags=pygame.OPENGL | pygame.DOUBLEBUF)
+        pygame.event.set_grab(True)
+        pygame.mouse.set_visible(False)
+
+        self.ctx = moderngl.create_context()
         #enable flag for seeing outside of cube
         #self.ctx.front_face = 'cw' # backface culling
-        self.ctx.enable(flags=mgl.DEPTH_TEST | mgl.CULL_FACE)
-        #create an object to help track time
-        self.clock = pg.time.Clock()
+        self.ctx.enable(flags=moderngl.DEPTH_TEST | moderngl.CULL_FACE)
+
+        self.clock = pygame.time.Clock()
         self.time = 0
         self.delta_time = 0
 
-        #light
         self.light = Light()
-        #camera
         self.camera= Camera(self)
-        #scene
         self.scene = Model(self)
-        self.skybox = Skybox(self)
-
     def check_events(self):
-        for event in pg.event.get():
-            if event.type == pg.QUIT or (event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                 self.scene.destroy()
-                pg.quit()
+                pygame.quit()
                 sys.exit()
-
     def render(self):
         #clear framebuffer
         self.ctx.clear(color=(0.08, 0.16, 0.18))
         #render scene
         self.scene.render()
-        self.skybox.render()
         #swap buffer
-        pg.display.flip()
-
+        pygame.display.flip()
     def get_time(self):
-        self.time = pg.time.get_ticks() * 0.001
-
+        self.time = pygame.time.get_ticks() * 0.001
     def run(self):
         while True:
             self.get_time()

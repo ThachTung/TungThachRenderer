@@ -5,7 +5,6 @@ class Shader:
     def __init__(self, app):
         self.app = app
         self.ctx = app.ctx
-
     def get_shader_name(self, name):
         with open(f'shaders/{name}.vert') as file:
             vertex_shader = file.read()
@@ -14,7 +13,6 @@ class Shader:
 
         program = self.ctx.program(vertex_shader=vertex_shader,fragment_shader=fragment_shader)
         return program
-
     def get_vertex_model(self, model_name):
         # use pyassimp for calculate tangent, bitangent
         # mesh = pyassimp.load('Opengl_01/models/wall.obj',processing=pyassimp.postprocess.aiProcess_Triangulate | pyassimp.postprocess.aiProcess_CalcTangentSpace)
