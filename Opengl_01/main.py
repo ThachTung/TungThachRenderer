@@ -16,8 +16,8 @@ class GraphicsEngine:
         pygame.display.gl_set_attribute(pygame.GL_CONTEXT_PROFILE_MASK, pygame.GL_CONTEXT_PROFILE_CORE)
 
         pygame.display.set_mode(self.WIN_SIZE, flags=pygame.OPENGL | pygame.DOUBLEBUF)
-        pygame.event.set_grab(True)
-        pygame.mouse.set_visible(False)
+        #pygame.event.set_grab(True)
+        #pygame.mouse.set_visible(False)
 
         self.ctx = moderngl.create_context()
         #enable flag for seeing outside of cube
@@ -29,8 +29,9 @@ class GraphicsEngine:
         self.delta_time = 0
 
         self.light = Light()
-        self.camera= Camera(self)
+        self.camera = Camera(self)
         self.scene = Model(self)
+
     def check_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
@@ -50,8 +51,9 @@ class GraphicsEngine:
         while True:
             self.get_time()
             self.check_events()
-            self.camera.update()
             self.light.light_change()
+            #print(self.light.position)
+            self.camera.update()
             self.render()
             self.delta_time = self.clock.tick(60)
 
