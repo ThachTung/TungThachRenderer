@@ -40,7 +40,7 @@ class GraphicsEngine:
                 sys.exit()
     def render(self):
         #clear framebuffer
-        self.ctx.clear(color=(0.08, 0.16, 0.18))
+        self.ctx.clear(color=(0.18, 0.18, 0.23))
         #render scene
         self.scene.render()
         #swap buffer
@@ -52,7 +52,6 @@ class GraphicsEngine:
             self.get_time()
             self.check_events()
             self.light.light_change()
-            #print(self.light.position)
             self.camera.update()
             self.render()
             self.delta_time = self.clock.tick(60)

@@ -23,6 +23,7 @@ class Model:
     def update(self):
         rot = (0, 0, 0)
         model = glm.rotate(self.model, rot[0], glm.vec3(1, 0, 0))
+        self.shader_program['light.position'].write(self.app.light.position)
         self.shader_program['light.dIntensity'].write(self.app.light.diffuse_intensity)
         self.shader_program['model'].write(model)
         self.shader_program['view'].write(self.app.camera.view)
