@@ -7,10 +7,13 @@ in vec3 normal;
 in vec3 fragPosition;
 
 struct Light {
+    vec3 direction;
     vec3 position;
     vec3 aIntensity;
     vec3 dIntensity;
     vec3 sIntensity;
+    float shininess;
+
 };
 
 uniform sampler2D bTexture;
@@ -22,6 +25,44 @@ uniform Light light;
 uniform vec3 camPosition;
 uniform float pi = 3.14159265359;
 uniform float zeroAvoid = 0.0000001;
+
+
+vec3 directionalLight(vec3 bTexture, vec3 nTexture, vec3 lightColor)
+{
+    vec3 ambientLight = light.aIntensity * bTexture;
+    vec3 normalVector = normalize(normal + (nTexture*2.0-1.0));
+    vec3 lightDirection = normalize(light.direction); // considering normalize(light.direction) or normalize(-light.direction): important thing
+
+    float diffuseValue = max(dot(lightDirection,normalVector),0.01);
+    vec3 diffuseLight = diffuseValue * bTexture * lightColor * light.dIntensity;
+
+    vec3 specularViewDirection = normalize(camPosition - fragPosition);
+    vec3 specularReflectDirection = reflect(-lightDirection,normalVector);
+    float specularValue = pow(max(dot(specularViewDirection,specularReflectDirection),0.01),light.shininess);
+    vec3 specularLight = specularValue * bTexture * lightColor * light.sIntensity;
+
+    return directionLightValue = ambientLight + diffuseLight + specularLight;
+}
+
+vec3 pointLight(vec3 bTexture, vec3 nTexture, vec3 lightColor)
+{
+    vec3 ambientLight = light.aIntensity * bTexture;
+    vec3 normalVector = normalize(normal + (nTexture*2.0-1.0));
+    vec3 lightDirection = normalize(light.position - fragPosition); // == distance of point light
+
+    float diffuseValue = max(dot(lightDirection,normalVector),0.01);
+    vec3 diffuseLight = diffuseValue * bTexture * lightColor * light.dIntensity;
+
+    vec3 specularViewDirection = normalize(camPosition - fragPosition);
+    vec3 specularReflectDirection = reflect(-lightDirection,normalVector);
+    float specularValue = pow(max(dot(specularViewDirection,specularReflectDirection),0.01),light.shininess);
+    vec3 specularLight = specularValue * bTexture * lightColor * light.sIntensity;
+
+    float antenuation = 1.0/(kConstant + kLinear * lightDirection + kQuadratic * lightDirection * lightDirection);
+    
+    return directionLightValue = ambientLight + (diffuseLight + specularLight)*antenuation;
+}
+
 
 //normal distribution function
 float distributionGGX(float NdotH, float roughness)
@@ -83,7 +124,8 @@ void main ()
     vec3 dirLighting = vec3(0.0);
     for(int i = 0; i<1; ++i)
     {
-        vec3 L = normalize(light.position-fragPosition);
+        vec3 L = normalize(light.position); //directional light
+        //vec3 L = normalize(light.position-fragPosition); //normal light
         vec3 H = normalize(V + L);
         float distance = length(light.position - fragPosition);
         float attenuation = 1.0/(distance*distance);

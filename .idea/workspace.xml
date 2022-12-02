@@ -4,8 +4,7 @@
     <list default="true" id="54bb3907-4272-4eed-978c-a96ba22d3bd3" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Opengl_01/light.py" beforeDir="false" afterPath="$PROJECT_DIR$/Opengl_01/light.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Opengl_01/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Opengl_01/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Opengl_01/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/Opengl_01/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Opengl_01/shaders/default.frag" beforeDir="false" afterPath="$PROJECT_DIR$/Opengl_01/shaders/default.frag" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
