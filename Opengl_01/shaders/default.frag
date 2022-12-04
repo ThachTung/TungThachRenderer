@@ -13,7 +13,11 @@ struct Light {
     vec3 dIntensity;
     vec3 sIntensity;
     float shininess;
-
+    float kConstant;
+    float kLinear;
+    float kQuadratic;
+    float cutOff;
+    float outerCutOff; //greater than cutOff
 };
 
 uniform sampler2D bTexture;
@@ -24,46 +28,70 @@ uniform float metallic = 0.0;
 uniform Light light;
 uniform vec3 camPosition;
 uniform float pi = 3.14159265359;
-uniform float zeroAvoid = 0.0000001;
+uniform float zeroAvoid = 0.001;
 
 
-vec3 directionalLight(vec3 bTexture, vec3 nTexture, vec3 lightColor)
+vec3 directionalLight(vec3 bTexture, vec3 nTexture)
 {
     vec3 ambientLight = light.aIntensity * bTexture;
     vec3 normalVector = normalize(normal + (nTexture*2.0-1.0));
-    vec3 lightDirection = normalize(light.direction); // considering normalize(light.direction) or normalize(-light.direction): important thing
+    vec3 lightDirection = normalize(-light.direction);
 
-    float diffuseValue = max(dot(lightDirection,normalVector),0.01);
-    vec3 diffuseLight = diffuseValue * bTexture * lightColor * light.dIntensity;
+    float diffuseValue = max(dot(lightDirection,normalVector),zeroAvoid);
+    vec3 diffuseLight = diffuseValue * bTexture  * light.dIntensity;
 
     vec3 specularViewDirection = normalize(camPosition - fragPosition);
     vec3 specularReflectDirection = reflect(-lightDirection,normalVector);
-    float specularValue = pow(max(dot(specularViewDirection,specularReflectDirection),0.01),light.shininess);
-    vec3 specularLight = specularValue * bTexture * lightColor * light.sIntensity;
+    float specularValue = pow(max(dot(specularViewDirection,specularReflectDirection),zeroAvoid),light.shininess);
+    vec3 specularLight = specularValue * bTexture  * light.sIntensity;
 
-    return directionLightValue = ambientLight + diffuseLight + specularLight;
+    return directionalLightValue = ambientLight + diffuseLight + specularLight;
 }
 
-vec3 pointLight(vec3 bTexture, vec3 nTexture, vec3 lightColor)
+vec3 pointLight(vec3 bTexture, vec3 nTexture)
 {
     vec3 ambientLight = light.aIntensity * bTexture;
     vec3 normalVector = normalize(normal + (nTexture*2.0-1.0));
-    vec3 lightDirection = normalize(light.position - fragPosition); // == distance of point light
+    vec3 lightDistance = normalize(light.position - fragPosition); // == distance of point light
 
-    float diffuseValue = max(dot(lightDirection,normalVector),0.01);
-    vec3 diffuseLight = diffuseValue * bTexture * lightColor * light.dIntensity;
+    float diffuseValue = max(dot(lightDistance,normalVector),zeroAvoid);
+    vec3 diffuseLight = diffuseValue * bTexture * light.dIntensity;
 
     vec3 specularViewDirection = normalize(camPosition - fragPosition);
-    vec3 specularReflectDirection = reflect(-lightDirection,normalVector);
-    float specularValue = pow(max(dot(specularViewDirection,specularReflectDirection),0.01),light.shininess);
-    vec3 specularLight = specularValue * bTexture * lightColor * light.sIntensity;
+    vec3 specularReflectDirection = reflect(-lightDistance,normalVector);
+    float specularValue = pow(max(dot(specularViewDirection,specularReflectDirection),zeroAvoid),light.shininess);
+    vec3 specularLight = specularValue * bTexture  * light.sIntensity;
 
-    float antenuation = 1.0/(kConstant + kLinear * lightDirection + kQuadratic * lightDirection * lightDirection);
-    
-    return directionLightValue = ambientLight + (diffuseLight + specularLight)*antenuation;
+    float antenuation = 1.0/(kConstant + kLinear * lightDistance + kQuadratic * lightDistance * lightDistance);
+
+    return pointLightValue = (ambientLight + diffuseLight + specularLight)*antenuation;
+}
+vec3 spotLight(vec3 bTexture, vec3 nTexture)
+{
+    vec3 ambientLight = light.aIntensity * bTexture;
+    vec3 normalVector = normalize(normal + (nTexture*2.0-1.0));
+    vec3 lightDistance = normalize(light.position - fragPosition);
+    float theta = dot(lightDistance, normalize(-light.direction));
+    float epsilon = light.cutOff - light.outerCutOff;
+    float intensity = (theta - light.outerCutOff)/epsilon;
+    if (theta > light.cutOff)
+    {
+        float diffuseValue = max(dot(normalize(-light.direction),normalVector),zeroAvoid);
+        vec3 diffuseLight = diffuseValue * bTexture  * light.dIntensity;
+
+        vec3 specularViewDirection = normalize(camPosition - fragPosition);
+        vec3 specularReflectDirection = reflect(-light.direction,normalVector);
+        float specularValue = pow(max(dot(specularViewDirection,specularReflectDirection),zeroAvoid),light.shininess);
+        vec3 specularLight = specularValue * bTexture  * light.sIntensity;
+        return spotLightValue = (ambientLight + diffuseLight + specularLight) * intensity;
+    }
+    else
+    {
+        return spotLightValue = ambientLight;
+    }
 }
 
-
+// PBR Implementation
 //normal distribution function
 float distributionGGX(float NdotH, float roughness)
 {
@@ -124,7 +152,7 @@ void main ()
     vec3 dirLighting = vec3(0.0);
     for(int i = 0; i<1; ++i)
     {
-        vec3 L = normalize(light.position); //directional light
+        vec3 L = normalize(-light.position); //directional light
         //vec3 L = normalize(light.position-fragPosition); //normal light
         vec3 H = normalize(V + L);
         float distance = length(light.position - fragPosition);
@@ -150,7 +178,8 @@ void main ()
 
     vec3 ambient = light.aIntensity * texture(bTexture,uv0).rgb;
 
-    vec3 lightDir = normalize(light.position - fragPosition);
+    //vec3 lightDir = normalize(light.position - fragPosition); //normal light
+    vec3 lightDir = normalize(-light.position);//directional light
     vec3 reflectDir = reflect(-lightDir,N);
     float spec = pow(max(dot(V,reflectDir),zeroAvoid),metallic);
     vec3 specular = spec * light.sIntensity;
