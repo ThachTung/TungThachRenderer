@@ -1,61 +1,54 @@
 import pygame
-import moderngl
-import sys
-from model import *
-from camera import Camera
-from light import Light
+from pygame.locals import *
+from OpenGL.GL import *
+from OpenGL.GLU import *
+from Cube import wireCube
 
-#main function
-class GraphicsEngine:
-    def __init__(self, win_size=(1280,720)):
-        pygame.init()
-        self.WIN_SIZE = win_size
+pygame.init()
 
-        pygame.display.gl_set_attribute(pygame.GL_CONTEXT_MAJOR_VERSION, 3)
-        pygame.display.gl_set_attribute(pygame.GL_CONTEXT_MINOR_VERSION, 3)
-        pygame.display.gl_set_attribute(pygame.GL_CONTEXT_PROFILE_MASK, pygame.GL_CONTEXT_PROFILE_CORE)
+# project settings
+screen_width = 1000
+screen_height = 800
+background_color = (0, 0, 0, 1)
+drawing_color = (1, 1, 1, 1)
 
-        pygame.display.set_mode(self.WIN_SIZE, flags=pygame.OPENGL | pygame.DOUBLEBUF)
-        #pygame.event.set_grab(True)
-        #pygame.mouse.set_visible(False)
+screen = pygame.display.set_mode((screen_width, screen_height), DOUBLEBUF | OPENGL)
+pygame.display.set_caption('OpenGL in Python')
 
-        self.ctx = moderngl.create_context()
-        #enable flag for seeing outside of cube
-        #self.ctx.front_face = 'cw' # backface culling
-        self.ctx.enable(flags=moderngl.DEPTH_TEST | moderngl.CULL_FACE)
 
-        self.clock = pygame.time.Clock()
-        self.time = 0
-        self.delta_time = 0
+def initialise():
+    glClearColor(background_color[0], background_color[1], background_color[2], background_color[3])
+    glColor(drawing_color)
 
-        self.light = Light()
-        self.camera = Camera(self)
-        self.scene = Model(self)
+    # projection
+    glMatrixMode(GL_PROJECTION)
+    glLoadIdentity()
+    gluPerspective(60, (screen_width / screen_height), 0.1, 100.0)
 
-    def check_events(self):
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-                self.scene.destroy()
-                pygame.quit()
-                sys.exit()
-    def render(self):
-        #clear framebuffer
-        self.ctx.clear(color=(0.18, 0.18, 0.23))
-        #render scene
-        self.scene.render()
-        #swap buffer
-        pygame.display.flip()
-    def get_time(self):
-        self.time = pygame.time.get_ticks() * 0.001
-    def run(self):
-        while True:
-            self.get_time()
-            self.check_events()
-            self.light.light_change()
-            self.camera.update()
-            self.render()
-            self.delta_time = self.clock.tick(60)
+    # modelview
+    glMatrixMode(GL_MODELVIEW)
+    glTranslate(0, 0, -5)
+    glLoadIdentity()
+    glViewport(0, 0, screen.get_width(), screen.get_height())
+    glEnable(GL_DEPTH_TEST)
+    glTranslate(0, 0, -2)
 
-if __name__ == '__main__':
-    app = GraphicsEngine()
-    app.run()
+
+def display():
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+    glRotatef(1, 10, 0, 1)
+    glPushMatrix()
+    wireCube()
+    glPopMatrix()
+
+
+done = False
+initialise()
+while not done:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            done = True
+    display()
+    pygame.display.flip()
+    pygame.time.wait(100);
+pygame.quit()

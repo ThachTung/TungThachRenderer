@@ -30,7 +30,7 @@ uniform vec3 camPosition;
 uniform float pi = 3.14159265359;
 uniform float zeroAvoid = 0.001;
 
-
+/*
 vec3 directionalLight(vec3 bTexture, vec3 nTexture)
 {
     vec3 ambientLight = light.aIntensity * bTexture;
@@ -90,7 +90,7 @@ vec3 spotLight(vec3 bTexture, vec3 nTexture)
         return spotLightValue = ambientLight;
     }
 }
-
+*/
 // PBR Implementation
 //normal distribution function
 float distributionGGX(float NdotH, float roughness)
@@ -179,12 +179,13 @@ void main ()
     vec3 ambient = light.aIntensity * texture(bTexture,uv0).rgb;
 
     //vec3 lightDir = normalize(light.position - fragPosition); //normal light
+
     vec3 lightDir = normalize(-light.position);//directional light
     vec3 reflectDir = reflect(-lightDir,N);
     float spec = pow(max(dot(V,reflectDir),zeroAvoid),metallic);
     vec3 specular = spec * light.sIntensity;
 
-    vec3 color = ambient + dirLighting + specular;
+    vec3 color = ambient + dirLighting + specular*0.00001;
     //base gamma adjust. if gamma is fixed, base color will be more brighter.
     //should be enabled when using phong/blinn.
     //should be disabled when using ue shading.
