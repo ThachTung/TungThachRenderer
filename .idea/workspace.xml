@@ -2,38 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="54bb3907-4272-4eed-978c-a96ba22d3bd3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/HelloOpengl.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HelloPygame.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Camera.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LoadMesh.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wall.obj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Opengl_01/buffer.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Opengl_01/camera.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Opengl_01/light.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Opengl_01/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Opengl_01/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Opengl_01/model.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Opengl_01/models/archilles.mtl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Opengl_01/models/archilles.obj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Opengl_01/models/archilles.obj.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Opengl_01/models/archilles.obj.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Opengl_01/models/archilles.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Opengl_01/models/wall.mtl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Opengl_01/models/wall.obj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Opengl_01/models/wall.obj.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Opengl_01/models/wall.obj.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Opengl_01/shader.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Opengl_01/shaders/default.frag" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Opengl_01/shaders/default.vert" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Opengl_01/shaders/skybox.frag" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Opengl_01/shaders/skybox.vert" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Opengl_01/texture.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Opengl_01/textures/skybox/back.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Opengl_01/textures/skybox/bottom.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Opengl_01/textures/skybox/front.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Opengl_01/textures/skybox/left.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Opengl_01/textures/skybox/right.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Opengl_01/textures/skybox/top.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Opengl_01/textures/wall/wall_c.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Opengl_01/textures/wall/wall_n.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Opengl_01/textures/wall/wall_r.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HelloOpengl.py" beforeDir="false" afterPath="$PROJECT_DIR$/Main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HelloPygame.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,28 +49,7 @@
       <recent name="F:\TungThachRenderer\Opengl_01\textures\wall" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.HelloOpengl">
-    <configuration name="HelloOpengl" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="TungThachRenderer" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/HelloOpengl.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Python.Main">
     <configuration name="HelloPygame" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="TungThachRenderer" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -118,9 +71,30 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="Main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="TungThachRenderer" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="F:\TungThachRenderer\Main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.HelloOpengl" />
+        <item itemvalue="Python.Main" />
         <item itemvalue="Python.HelloPygame" />
       </list>
     </recent_temporary>
