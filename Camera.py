@@ -9,10 +9,10 @@ class Camera:
         self.right = pygame.math.Vector3(1, 0, 0)
         self.forward = pygame.math.Vector3(0, 0, 1)
         self.look_at = self.camera + self.forward
-        self.yaw = -90
+        self.yaw = 90
         self.pitch = 0
         self.last_mouse = pygame.math.Vector2(0, 0)
-        self.mouse_sensitivities = 0.1
+        self.mouse_sensitivities = 0.05
 
     def rotation(self, yaw, pitch):
         self.yaw += yaw

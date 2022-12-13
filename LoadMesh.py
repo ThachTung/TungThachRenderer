@@ -23,6 +23,7 @@ class LoadMesh:
                 line = mesh_file.readline()
 
     def drawing(self):
+        glColor(1, 1, 1)
         for t in range(0, len(self.triangles), 3):
             glBegin(self.type)
             glVertex3fv(self.vertices[self.triangles[t]])

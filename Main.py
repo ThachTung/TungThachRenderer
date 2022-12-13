@@ -4,6 +4,7 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 from LoadMesh import *
 from Camera import *
+from WorldAxis import *
 pygame.init()
 
 screen_width = 1000
@@ -16,6 +17,7 @@ pygame.display.set_caption("TungThachRenderer")
 
 mesh = LoadMesh("wall.obj", GL_LINE_LOOP)
 camera = Camera()
+world_axis = WorldAxis()
 
 def init():
     glClearColor(background_color[0], background_color[1], background_color[2], background_color[3])
@@ -38,8 +40,13 @@ def display():
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     #glRotatef(1, 10, 10, 1)
     camera_view()
+
+    #draw_lines
+    world_axis.drawing_line()
+
     glPushMatrix()
-    #glLineWidth(10) - line thickness
+    #line thickness
+    glLineWidth(2)
     mesh.drawing()
     glPopMatrix()
 
