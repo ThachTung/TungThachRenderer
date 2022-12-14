@@ -5,6 +5,13 @@ from OpenGL.GLU import *
 from LoadMesh import *
 from Camera import *
 from WorldAxis import *
+import os
+
+#constant location of pygame window
+x_location = 500
+y_location = 150
+os.environ['SDL_VIDEO_WINDOW_POS'] = "%d, %d" % (x_location, y_location)
+
 pygame.init()
 
 screen_width = 1000
