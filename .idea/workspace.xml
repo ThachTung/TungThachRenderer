@@ -2,8 +2,44 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="54bb3907-4272-4eed-978c-a96ba22d3bd3" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/LoadShader.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Camera.py" beforeDir="false" afterPath="$PROJECT_DIR$/Camera.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/README/LICENSE" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Opengl_01/Cube.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Opengl_01/_archived/buffer.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Opengl_01/_archived/camera.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Opengl_01/_archived/light.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Opengl_01/_archived/main.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Opengl_01/_archived/model.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Opengl_01/_archived/models/archilles.mtl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Opengl_01/_archived/models/archilles.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Opengl_01/_archived/models/archilles.obj.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Opengl_01/_archived/models/archilles.obj.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Opengl_01/_archived/models/archilles.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Opengl_01/_archived/models/wall.mtl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Opengl_01/_archived/models/wall.obj" beforeDir="false" afterPath="$PROJECT_DIR$/model/wall.obj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Opengl_01/_archived/models/wall.obj.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Opengl_01/_archived/models/wall.obj.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Opengl_01/_archived/shader.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Opengl_01/_archived/shaders/default.frag" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Opengl_01/_archived/shaders/default.vert" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Opengl_01/_archived/shaders/skybox.frag" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Opengl_01/_archived/shaders/skybox.vert" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Opengl_01/_archived/texture.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Opengl_01/_archived/textures/skybox/back.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Opengl_01/_archived/textures/skybox/bottom.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Opengl_01/_archived/textures/skybox/front.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Opengl_01/_archived/textures/skybox/left.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Opengl_01/_archived/textures/skybox/right.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Opengl_01/_archived/textures/skybox/top.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Opengl_01/_archived/textures/wall/wall_c.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Opengl_01/_archived/textures/wall/wall_n.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Opengl_01/_archived/textures/wall/wall_r.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Opengl_01/main.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wall.obj" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,6 +78,8 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\TungThachRenderer\README" />
+      <recent name="F:\TungThachRenderer\model" />
       <recent name="F:\TungThachRenderer\Opengl_01\textures\wall" />
     </key>
   </component>
@@ -88,9 +126,31 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="my_first_shader" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="TungThachRenderer" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../UDEMY_OPENGL/54.Vertex_Shader/S0806Resources/Engine2" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../UDEMY_OPENGL/54.Vertex_Shader/S0806Resources/Engine2/my_first_shader.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Python.Main" />
+        <item itemvalue="Python.my_first_shader" />
         <item itemvalue="Python.HelloPygame" />
       </list>
     </recent_temporary>
