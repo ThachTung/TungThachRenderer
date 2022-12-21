@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="54bb3907-4272-4eed-978c-a96ba22d3bd3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/LoadBufferData.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Mesh.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Square.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Uniform.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Transformation.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
