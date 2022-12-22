@@ -17,13 +17,14 @@ class Engine:
         
         in vec3 position;
         in vec3 vertex_color;
-        uniform vec3 translation;
+        uniform mat4 projection_mat;
+        uniform mat4 model_mat;
+        uniform mat4 view_mat;
         out vec3 color;
         
         void main()
         {
-            vec3 pos = position + translation;
-            gl_Position = vec4(pos, 1.0);
+            gl_Position = projection_mat * inverse(view_mat) * model_mat * vec4(position, 1.0);
             color = vertex_color;
         }
         '''
@@ -53,32 +54,24 @@ class Engine:
         pygame.display.set_caption("TungThachRenderer")
 
         # mesh = LoadMesh("model/wall.obj", GL_LINE_LOOP)
-        self.camera = Camera()
-        self.world_axis = WorldAxis()
         self.shader_program = None
         self.square = None
         self.vao = None
         self.vertex_count = 0
 
-    def camera_view(self):
-        # model view
-        glMatrixMode(GL_MODELVIEW)
-        glLoadIdentity()
-        glViewport(0, 0, self.screen.get_width(), self.screen.get_height())
-        glEnable(GL_DEPTH_TEST)
-        self.camera.update(self.screen.get_width(), self.screen.get_height())
-
     def load_shader(self):
         self.shader_program = LoadShader.create_shader(self.vertex_shader, self.fragment_shader)
         self.square = Square(self.shader_program, position=pygame.Vector3(-0.5, 0.5, 0.0))
+        self.world_axis = WorldAxis(self.shader_program, position=pygame.Vector3(0, 0, 0))
+        self.camera = Camera(self.shader_program, self.screen_width, self.screen_height)
+        glEnable(GL_DEPTH_TEST)
 
     def display(self):
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         glUseProgram(self.shader_program)
+        self.camera.update()
+        self.world_axis.mesh_drawing()
         self.square.mesh_drawing()
-
-        #self.camera_view()
-        #self.world_axis.drawing_line()
 
 
     def main_loop(self):

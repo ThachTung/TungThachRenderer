@@ -12,4 +12,5 @@ class Uniform:
     def load(self):
         if self.data_type == "vec3":
             glUniform3f(self.variable_id, self.data[0], self.data[1], self.data[2])
-
+        if self.data_type == "mat4":
+            glUniformMatrix4fv(self.variable_id, 1, GL_TRUE, self.data)
