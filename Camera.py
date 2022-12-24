@@ -31,8 +31,12 @@ class Camera:
                          [0, 0, b, c],
                          [0, 0, -1, 0]], np.float32)
     def rotation(self, yaw, pitch):
-        self.transformation = rotate(self.transformation, yaw, "Y")
-        self.transformation = rotate(self.transformation, pitch, "X")
+        forward = pygame.Vector3(self.transformation[0, 2], self.transformation[1, 2], self.transformation[2, 2])
+        up = pygame.Vector3(0, 1, 0)
+        angle = forward.angle_to(up)
+        self.transformation = rotate(self.transformation, yaw, "Y", False)
+        if angle < 170 and pitch > 0 or angle > 30 and pitch < 0:
+            self.transformation = rotate(self.transformation, pitch, "X", True)
 
     def update(self):
         if pygame.mouse.get_visible():

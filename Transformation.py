@@ -61,7 +61,7 @@ def scale3(matrix, sx, sy, sz):
     scale3D = scale_matrix3(sx, sy, sz)
     return matrix @ scale3D
 
-def rotate(matrix, angle, axis):
+def rotate(matrix, angle, axis, local=True):
     rot = identity_matrix()
     if axis == "X":
         rot = rotation_x_matrix(angle)
@@ -69,4 +69,8 @@ def rotate(matrix, angle, axis):
         rot = rotation_y_matrix(angle)
     elif axis == "Z":
         rot = rotation_z_matrix(angle)
-    return matrix @ rot
+
+    if local:
+        return matrix @ rot
+    else:
+        return rot @ matrix

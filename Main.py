@@ -61,7 +61,7 @@ class Engine:
 
     def load_shader(self):
         self.shader_program = LoadShader.create_shader(self.vertex_shader, self.fragment_shader)
-        self.square = Square(self.shader_program, position=pygame.Vector3(-0.5, 0.5, 0.0))
+        self.square = Square(self. shader_program, position=pygame.Vector3(-0.5, 0.5, 0.0))
         self.world_axis = WorldAxis(self.shader_program, position=pygame.Vector3(0, 0, 0))
         self.camera = Camera(self.shader_program, self.screen_width, self.screen_height)
         glEnable(GL_DEPTH_TEST)
