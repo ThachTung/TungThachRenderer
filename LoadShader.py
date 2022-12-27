@@ -1,4 +1,13 @@
+import numpy as np
 from OpenGL.GL import *
+
+def format_vertices(coordinate, triangles):
+    all_triangles = []
+    for t in range(0, len(triangles), 3):
+        all_triangles.append(coordinate[triangles[t]])
+        all_triangles.append(coordinate[triangles[t + 1]])
+        all_triangles.append(coordinate[triangles[t + 2]])
+    return np.array(all_triangles, np.float32)
 
 def compile_shader(shader_type, shader_source):
     shader_id = glCreateShader(shader_type)

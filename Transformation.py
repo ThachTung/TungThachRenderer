@@ -1,6 +1,11 @@
 import numpy as np
 from math import *
 
+class Rotation:
+    def __init__(self, angle, axis):
+        self.angle = angle
+        self.axis = axis
+
 def identity_matrix():
     return np.array([[1, 0, 0, 0],
                      [0, 1, 0, 0],

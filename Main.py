@@ -2,11 +2,12 @@ import pygame
 from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
-from LoadMesh import *
+from LoadBufferData import *
 from Camera import *
 from WorldAxis import *
-from LoadBufferData import *
 from Square import *
+from Cube import *
+from LoadMesh import *
 import LoadShader
 import os
 
@@ -46,6 +47,7 @@ class Engine:
         os.environ['SDL_VIDEO_WINDOW_POS'] = "%d, %d" % (self.x_location, self.y_location)
 
         pygame.init()
+        #pygame.display.gl_set_attribute(GL_DEPTH_SIZE, 32) #--for fixing triangles on the edges of 3D object
         self.screen_width = 1000
         self.screen_height = 800
         self.background_color = (0.0, 0.0, 0.0, 1.0)
@@ -55,15 +57,21 @@ class Engine:
 
         # mesh = LoadMesh("model/wall.obj", GL_LINE_LOOP)
         self.shader_program = None
+        self.camera = None
+        self.world_axis = None
         self.square = None
+        self.cube = None
+        self.mesh = None
         self.vao = None
         self.vertex_count = 0
 
     def load_shader(self):
         self.shader_program = LoadShader.create_shader(self.vertex_shader, self.fragment_shader)
         self.square = Square(self. shader_program, position=pygame.Vector3(-0.5, 0.5, 0.0))
-        self.world_axis = WorldAxis(self.shader_program, position=pygame.Vector3(0, 0, 0))
+        self.world_axis = WorldAxis(self.shader_program)
+        self.cube = Cube(self.shader_program)
         self.camera = Camera(self.shader_program, self.screen_width, self.screen_height)
+        self.mesh = LoadMesh('model/wall.obj', self.shader_program, scale=pygame.Vector3(0.1, 0.3, 0.1))
         glEnable(GL_DEPTH_TEST)
 
     def display(self):
@@ -71,7 +79,9 @@ class Engine:
         glUseProgram(self.shader_program)
         self.camera.update()
         self.world_axis.mesh_drawing()
-        self.square.mesh_drawing()
+        #self.square.mesh_drawing()
+        #self.cube.mesh_drawing()
+        self.mesh.mesh_drawing()
 
 
     def main_loop(self):
