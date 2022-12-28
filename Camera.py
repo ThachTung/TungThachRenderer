@@ -15,7 +15,7 @@ class Camera:
         self.pitch = 0
         self.last_mouse = pygame.math.Vector2(0, 0)
         self.mouse_sensitivities = 0.01
-        self.movement_sensitivities = 0.001
+        self.movement_sensitivities = 0.1
         self.projection_matrix = self.perspective_matrix(60, self.screen_width/self.screen_height, 0.01, 10000)
         self.projection = Uniform("mat4", self.projection_matrix)
         self.projection.find_variable(self.shader, "projection_mat")

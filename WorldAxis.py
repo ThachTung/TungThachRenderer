@@ -14,7 +14,7 @@ class WorldAxis(Mesh):
                        [0.0, 1.0, 0.0],
                        [0.0, 0.0, 1.0],
                        [0.0, 0.0, 1.0]]
-        super().__init__(shader, self.vertices, self.colors, GL_LINES, position)
+        super().__init__(shader=shader, vertices=self.vertices, vertex_colors=self.colors, gl_type=GL_LINES, translation=position)
 
 
 

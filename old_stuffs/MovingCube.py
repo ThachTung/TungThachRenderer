@@ -1,12 +1,9 @@
 import pygame
-from Mesh import *
+from MovingMesh import *
 from LoadShader import *
 
-class Cube(Mesh):
-    def __init__(self, shader, position=pygame.Vector3(0, 0, 0),
-                 moving_rotation=Rotation(0, pygame.Vector3(0, 1, 0)),
-                 moving_translation=pygame.Vector3(0, 0, 0),
-                 moving_scale=pygame.Vector3(1, 1, 1)):
+class MovingCube(MovingMesh):
+    def __init__(self, shader, position=pygame.Vector3(0, 0, 0), moving_rotation=(0, pygame.Vector3(0, 1, 0))):
         coordinates = [(0.5, -0.5, 0.5),
                          (-0.5, -0.5, 0.5),
                          (0.5, 0.5, 0.5),
@@ -73,6 +70,5 @@ class Cube(Mesh):
                 0.912, 0.912, 0.912]
 
         vertices = format_vertices(coordinates, triangles)
-        super().__init__(shader, vertices, colors, GL_TRIANGLES, position, moving_rotation=moving_rotation,
-                         moving_translation=moving_translation, moving_scale=moving_scale)
+        super().__init__(shader, vertices, colors, GL_TRIANGLES, position, moving_rotation=moving_rotation)
 

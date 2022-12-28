@@ -18,14 +18,23 @@ class Engine:
         
         in vec3 position;
         in vec3 vertex_color;
+        in vec3 vertex_normal;
         uniform mat4 projection_mat;
         uniform mat4 model_mat;
         uniform mat4 view_mat;
         out vec3 color;
+        out vec3 normal;
+        out vec3 frag_pos;
+        out vec3 light_pos;
         
         void main()
         {
+            // static light_pos at camera view
+            light_pos = vec3(inverse(model_mat) * vec4(view_mat[3][0], view_mat[3][1], view_mat[3][2], 1));
+            //light_pos = vec3(model_mat * vec4(5, 5, 5, 1));
             gl_Position = projection_mat * inverse(view_mat) * model_mat * vec4(position, 1.0);
+            normal = vertex_normal;
+            frag_pos = vec3(model_mat * vec4(position, 1.0));
             color = vertex_color;
         }
         '''
@@ -33,11 +42,19 @@ class Engine:
         #version 330 core
         
         in vec3 color;
+        in vec3 normal;
+        in vec3 frag_pos;
+        in vec3 light_pos;
         out vec4 frag_color;
         
         void main()
         {
-            frag_color = vec4(color, 1.0);
+            vec3 light_color = vec3(1, 0, 0);
+            vec3 norm = normalize(normal);
+            vec3 light_dir = normalize(light_pos - frag_pos);
+            float diff = max(dot(light_dir, norm), 0.001);
+            vec3 diffuse = diff * light_color;
+            frag_color = vec4(color * diffuse, 1.0);
         }
         '''
 
@@ -61,26 +78,33 @@ class Engine:
         self.world_axis = None
         self.square = None
         self.cube = None
+        self.moving_cube = None
         self.mesh = None
         self.vao = None
         self.vertex_count = 0
+        self.clock = pygame.time.Clock()
 
     def load_shader(self):
         self.shader_program = LoadShader.create_shader(self.vertex_shader, self.fragment_shader)
-        self.square = Square(self. shader_program, position=pygame.Vector3(-0.5, 0.5, 0.0))
-        self.world_axis = WorldAxis(self.shader_program)
-        self.cube = Cube(self.shader_program)
+        #self.square = Square(self. shader_program, position=pygame.Vector3(-0.5, 0.5, 0.0))
+        #self.world_axis = WorldAxis(self.shader_program)
+        #self.cube = Cube(self.shader_program, position=pygame.Vector3(0, 2, 0))
+        #self.moving_cube = Cube(self.shader_program, position=pygame.Vector3(0, 0, 0), moving_rotation=Rotation(1, pygame.Vector3(0, 1, 0)))
         self.camera = Camera(self.shader_program, self.screen_width, self.screen_height)
-        self.mesh = LoadMesh('model/wall.obj', self.shader_program, scale=pygame.Vector3(0.1, 0.3, 0.1))
+        self.mesh = LoadMesh('model/wall.obj', self.shader_program,
+                             scale=pygame.Vector3(0.1, 0.1, 0.1),
+                             rotation=Rotation(0, pygame.Vector3(0, 1, 0)),
+                             moving_rotation=Rotation(1, pygame.Vector3(0, 1, 0)))
         glEnable(GL_DEPTH_TEST)
 
     def display(self):
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         glUseProgram(self.shader_program)
         self.camera.update()
-        self.world_axis.mesh_drawing()
+        #self.world_axis.mesh_drawing()
         #self.square.mesh_drawing()
         #self.cube.mesh_drawing()
+        #self.moving_cube.mesh_drawing()
         self.mesh.mesh_drawing()
 
 
@@ -103,6 +127,7 @@ class Engine:
             self.display()
             # swap buffer
             pygame.display.flip()
+            self.clock.tick(60)
 
         pygame.quit()
 

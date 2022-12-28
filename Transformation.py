@@ -1,11 +1,10 @@
 import numpy as np
+import pygame
 from math import *
-
 class Rotation:
     def __init__(self, angle, axis):
         self.angle = angle
         self.axis = axis
-
 def identity_matrix():
     return np.array([[1, 0, 0, 0],
                      [0, 1, 0, 0],
@@ -54,6 +53,19 @@ def rotation_z_matrix(angle):
                      [0, 0, 1, 0],
                      [0, 0, 0, 1]], np.float32)
 
+def rotation_around_axis(angle, axis):
+    cos_value = cos(radians(angle))
+    sine_value = sin(radians(angle))
+    axis = axis.normalize()
+    ux2 = axis.x * axis.x
+    uy2 = axis.y * axis.y
+    uz2 = axis.z * axis.z
+    return np.array(
+        [[cos_value + (1 - cos_value) * ux2, (1 - cos_value) * axis.y * axis.x - sine_value * axis.z, (1 - cos_value) * axis.z * axis.x + sine_value * axis.y, 0],
+         [(1 - cos_value) * axis.y * axis.x + sine_value * axis.z, cos_value + (1 - cos_value) * uy2, (1 - cos_value) * axis.z * axis.y - sine_value * axis.x, 0],
+         [(1 - cos_value) * axis.x * axis.z - sine_value * axis.y, (1 - cos_value) * axis.y * axis.z + sine_value * axis.x, cos_value + (1 - cos_value) * uz2, 0],
+         [0, 0, 0, 1]], np.float32)
+
 def translate(matrix, x, y, z):
     trans = translation_matrix(x, y, z)
     return matrix @ trans
@@ -75,6 +87,13 @@ def rotate(matrix, angle, axis, local=True):
     elif axis == "Z":
         rot = rotation_z_matrix(angle)
 
+    if local:
+        return matrix @ rot
+    else:
+        return rot @ matrix
+
+def rotate_mesh(matrix, angle, axis, local=True):
+    rot = rotation_around_axis(angle, axis)
     if local:
         return matrix @ rot
     else:
