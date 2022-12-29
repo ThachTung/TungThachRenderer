@@ -8,6 +8,7 @@ from WorldAxis import *
 from Square import *
 from Cube import *
 from LoadMesh import *
+from Light import *
 import LoadShader
 import os
 
@@ -25,15 +26,21 @@ class Engine:
         out vec3 color;
         out vec3 normal;
         out vec3 frag_pos;
-        out vec3 light_pos;
+        //out vec3 light_pos;
+        out vec3 cam_pos;
         
         void main()
         {
             // static light_pos at camera view
-            light_pos = vec3(inverse(model_mat) * vec4(view_mat[3][0], view_mat[3][1], view_mat[3][2], 1));
+            //light_pos = vec3(inverse(model_mat) * vec4(view_mat[3][0], view_mat[3][1], view_mat[3][2], 1));
             //light_pos = vec3(model_mat * vec4(5, 5, 5, 1));
+            //light_pos = vec3(5, 5, 5);
+            
+            //camera pos
+            cam_pos = vec3(inverse(model_mat) * vec4(view_mat[3][0], view_mat[3][1], view_mat[3][2], 1));
             gl_Position = projection_mat * inverse(view_mat) * model_mat * vec4(position, 1.0);
-            normal = vertex_normal;
+            //normal = mat3(transpose(inverse(model_mat))) * vertex_normal;
+            normal = vec3(model_mat * vec4(vertex_normal, 1));
             frag_pos = vec3(model_mat * vec4(position, 1.0));
             color = vertex_color;
         }
@@ -44,17 +51,48 @@ class Engine:
         in vec3 color;
         in vec3 normal;
         in vec3 frag_pos;
-        in vec3 light_pos;
+        in vec3 cam_pos;
         out vec4 frag_color;
         
-        void main()
+        struct Light
         {
-            vec3 light_color = vec3(1, 0, 0);
+            vec3 position;
+            vec3 color;
+        };
+        
+        #define NUM_LIGHTS 2
+        uniform Light light_data[NUM_LIGHTS];
+        
+        vec4 CreateLight(vec3 light_pos, vec3 light_color, vec3 normal, vec3 frag_pos, vec3 view_dir)
+        {        
+            //ambient
+            float ambient_strength = 0.1;
+            vec3 ambient = ambient_strength * light_color;
+            
+            //diffuse
             vec3 norm = normalize(normal);
             vec3 light_dir = normalize(light_pos - frag_pos);
             float diff = max(dot(light_dir, norm), 0.001);
             vec3 diffuse = diff * light_color;
-            frag_color = vec4(color * diffuse, 1.0);
+            
+            //specular
+            float specular_strength = 1.0;
+            vec3 reflect_dir = normalize(-light_dir - norm);
+            float spec = pow(max(dot(view_dir, reflect_dir), 0.001), 32);
+            vec3 specular = specular_strength * spec * light_color;
+            
+            return vec4(color * (diffuse + ambient + specular), 1.0);
+        }
+        
+        void main()
+        {
+            vec3 light_color = vec3(1, 0, 0);
+            vec3 view_dir = normalize(cam_pos - frag_pos);
+            
+            for (int i=0; i < NUM_LIGHTS; i++)
+            {
+                frag_color += CreateLight(light_data[i].position, light_data[i].color, normal, frag_pos, view_dir);
+            }
         }
         '''
 
@@ -75,6 +113,8 @@ class Engine:
         # mesh = LoadMesh("model/wall.obj", GL_LINE_LOOP)
         self.shader_program = None
         self.camera = None
+        self.light1 = None
+        self.light2 = None
         self.world_axis = None
         self.square = None
         self.cube = None
@@ -91,6 +131,10 @@ class Engine:
         #self.cube = Cube(self.shader_program, position=pygame.Vector3(0, 2, 0))
         #self.moving_cube = Cube(self.shader_program, position=pygame.Vector3(0, 0, 0), moving_rotation=Rotation(1, pygame.Vector3(0, 1, 0)))
         self.camera = Camera(self.shader_program, self.screen_width, self.screen_height)
+        self.light1 = Light(self.shader_program, position=pygame.Vector3(2, 1, 2),
+                            color=pygame.Vector3(1, 0, 0), light_numbers=0)
+        self.light2 = Light(self.shader_program, position=pygame.Vector3(-2, 1, -2),
+                            color=pygame.Vector3(0, 1, 0), light_numbers=1)
         self.mesh = LoadMesh('model/wall.obj', self.shader_program,
                              scale=pygame.Vector3(0.1, 0.1, 0.1),
                              rotation=Rotation(0, pygame.Vector3(0, 1, 0)),
@@ -101,6 +145,8 @@ class Engine:
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         glUseProgram(self.shader_program)
         self.camera.update()
+        self.light1.update()
+        self.light2.update()
         #self.world_axis.mesh_drawing()
         #self.square.mesh_drawing()
         #self.cube.mesh_drawing()
