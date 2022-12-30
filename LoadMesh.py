@@ -4,7 +4,7 @@ from Mesh import *
 from LoadShader import *
 import random
 class LoadMesh(Mesh):
-    def __init__(self, path, shader, gl_type=GL_TRIANGLES,
+    def __init__(self, path, image_file, shader, gl_type=GL_TRIANGLES,
                  position=pygame.Vector3(0, 0, 0),
                  rotation=Rotation(0, pygame.Vector3(0, 1, 0)),
                  scale=pygame.Vector3(1, 1, 1),
@@ -20,7 +20,7 @@ class LoadMesh(Mesh):
             colors.append(1) #random.random() to have random colors
             colors.append(1)
             colors.append(1)
-        super().__init__(shader, vertices, vertex_normals, vertex_uvs, colors, gl_type, position, rotation, scale,
+        super().__init__(shader, image_file, vertices, vertex_normals, vertex_uvs, colors, gl_type, position, rotation, scale,
                          moving_rotation, moving_translation, moving_scale)
 
 

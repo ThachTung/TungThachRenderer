@@ -20,11 +20,13 @@ class Engine:
         in vec3 position;
         in vec3 vertex_color;
         in vec3 vertex_normal;
+        in vec2 vertex_uv;
         uniform mat4 projection_mat;
         uniform mat4 model_mat;
         uniform mat4 view_mat;
         out vec3 color;
         out vec3 normal;
+        out vec2 uv;
         out vec3 frag_pos;
         //out vec3 light_pos;
         out vec3 cam_pos;
@@ -43,6 +45,7 @@ class Engine:
             normal = vec3(model_mat * vec4(vertex_normal, 1));
             frag_pos = vec3(model_mat * vec4(position, 1.0));
             color = vertex_color;
+            uv = vertex_uv;
         }
         '''
         self.fragment_shader = r'''
@@ -50,9 +53,12 @@ class Engine:
         
         in vec3 color;
         in vec3 normal;
+        in vec2 uv;
         in vec3 frag_pos;
         in vec3 cam_pos;
         out vec4 frag_color;
+        
+        uniform sampler2D tex;
         
         struct Light
         {
@@ -93,6 +99,8 @@ class Engine:
             {
                 frag_color += CreateLight(light_data[i].position, light_data[i].color, normal, frag_pos, view_dir);
             }
+            
+            frag_color = frag_color * texture(tex, uv);
         }
         '''
 
@@ -124,6 +132,8 @@ class Engine:
         self.vertex_count = 0
         self.clock = pygame.time.Clock()
 
+        #only see 1 side of face
+        glEnable(GL_CULL_FACE)
     def load_shader(self):
         self.shader_program = LoadShader.create_shader(self.vertex_shader, self.fragment_shader)
         #self.square = Square(self. shader_program, position=pygame.Vector3(-0.5, 0.5, 0.0))
@@ -135,11 +145,26 @@ class Engine:
                             color=pygame.Vector3(1, 0, 0), light_numbers=0)
         self.light2 = Light(self.shader_program, position=pygame.Vector3(-2, 1, -2),
                             color=pygame.Vector3(0, 1, 0), light_numbers=1)
-        self.mesh = LoadMesh('model/wall.obj', self.shader_program,
+        '''
+        self.wall = LoadMesh('model/wall.obj', self.shader_program,
                              scale=pygame.Vector3(0.1, 0.1, 0.1),
                              rotation=Rotation(0, pygame.Vector3(0, 1, 0)),
                              moving_rotation=Rotation(1, pygame.Vector3(0, 1, 0)))
+        '''
+        #edit obj_file: vt data to control UV
+        self.plane = LoadMesh('model/plane.obj', "texture/window.png", self.shader_program,
+                             scale=pygame.Vector3(1, 1, 1),
+                             rotation=Rotation(0, pygame.Vector3(0, 1, 0)))
+        self.cube = LoadMesh('model/cube.obj', "texture/crate.png", self.shader_program,
+                             position=pygame.Vector3(0, -1, 0),
+                              scale=pygame.Vector3(1, 1, 1),
+                              rotation=Rotation(0, pygame.Vector3(0, 1, 0)))
+        #enable depth buffer for handling small triangles on the edges of object - not aliasing
         glEnable(GL_DEPTH_TEST)
+
+        #enable alpha blending
+        glEnable(GL_BLEND)
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
     def display(self):
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
@@ -150,8 +175,11 @@ class Engine:
         #self.world_axis.mesh_drawing()
         #self.square.mesh_drawing()
         #self.cube.mesh_drawing()
-        #self.moving_cube.mesh_drawing()
-        self.mesh.mesh_drawing()
+        #self.wall.mesh_drawing()
+        self.cube.mesh_drawing()
+
+        #object with transparent texture must be drawed at last
+        self.plane.mesh_drawing()
 
 
     def main_loop(self):

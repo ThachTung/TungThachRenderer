@@ -2,9 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="54bb3907-4272-4eed-978c-a96ba22d3bd3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Light.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Texture.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/plane.obj" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/texture/crate.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LoadBufferData.py" beforeDir="false" afterPath="$PROJECT_DIR$/LoadBufferData.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LoadMesh.py" beforeDir="false" afterPath="$PROJECT_DIR$/LoadMesh.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Mesh.py" beforeDir="false" afterPath="$PROJECT_DIR$/Mesh.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Uniform.py" beforeDir="false" afterPath="$PROJECT_DIR$/Uniform.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,6 +52,7 @@
       <recent name="F:\TungThachRenderer" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\TungThachRenderer\texture" />
       <recent name="F:\TungThachRenderer\old_stuffs" />
       <recent name="F:\TungThachRenderer\README" />
       <recent name="F:\TungThachRenderer\model" />

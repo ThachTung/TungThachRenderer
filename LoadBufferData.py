@@ -18,5 +18,7 @@ class BufferData:
         glBindBuffer(GL_ARRAY_BUFFER, self.vbo)
         if self.data_type == "vec3":
             glVertexAttribPointer(variable_id, 3, GL_FLOAT, False, 0, None)
+        elif self.data_type == "vec2":
+            glVertexAttribPointer(variable_id, 2, GL_FLOAT, False, 0, None)
 
         glEnableVertexAttribArray(variable_id)
