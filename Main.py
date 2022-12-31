@@ -26,13 +26,14 @@ class Engine:
         os.environ['SDL_VIDEO_WINDOW_POS'] = "%d, %d" % (self.x_location, self.y_location)
 
         pygame.init()
-        #pygame.display.gl_set_attribute(GL_DEPTH_SIZE, 32) #--for fixing triangles on the edges of 3D object
+
         self.screen_width = 1000
         self.screen_height = 800
         self.background_color = (0.0, 0.0, 0.0, 1.0)
         self.drawing_color = (1.0, 1.0, 1.0, 1.0)
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height), DOUBLEBUF | OPENGL)
         pygame.display.set_caption("TungThachRenderer")
+        pygame.display.gl_set_attribute(GL_DEPTH_SIZE, 32)  # --for fixing triangles on the edges of 3D object
 
         self.shader_program = None
         self.axis_shader_program = None
@@ -63,6 +64,8 @@ class Engine:
                               scale=pygame.Vector3(1, 1, 1),
                               rotation=Rotation(0, pygame.Vector3(0, 1, 0)),
                              moving_rotation=Rotation(1, pygame.Vector3(0, 1, 0)))
+
+        self.cube2 = Cube(self.shader_program)
         #enable depth buffer for handling small triangles on the edges of object - not aliasing
         glEnable(GL_DEPTH_TEST)
 
@@ -72,14 +75,14 @@ class Engine:
 
     def display(self):
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-        #self.world_axis.mesh_drawing(self.camera, None)
+        #self.world_axis.mesh_drawing(self.camera, None) #working on linux - not Windows
         #self.square.mesh_drawing()
         #self.cube.mesh_drawing()
         #self.wall.mesh_drawing()
-        self.cube.mesh_drawing(self.camera, self.lights)
-
+        #self.cube.mesh_drawing(self.camera, self.lights)
+        self.cube2.mesh_drawing(self.camera, None)
         #object with transparent texture must be drawed at last
-        self.plane.mesh_drawing(self.camera, self.lights)
+        #self.plane.mesh_drawing(self.camera, self.lights)
 
 
     def main_loop(self):

@@ -73,6 +73,13 @@ class Cube(Mesh):
                 0.912, 0.912, 0.912]
 
         vertices = format_vertices(coordinates, triangles)
-        super().__init__(shader, vertices, colors, GL_TRIANGLES, position, moving_rotation=moving_rotation,
-                         moving_translation=moving_translation, moving_scale=moving_scale)
+        super().__init__(shader=shader,
+                         image_file=None,
+                         vertices=vertices,
+                         vertex_colors=colors,
+                         gl_type=GL_TRIANGLES,
+                         translation=position,
+                         moving_rotation=moving_rotation,
+                         moving_translation=moving_translation,
+                         moving_scale=moving_scale)
 
