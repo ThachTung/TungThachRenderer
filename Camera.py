@@ -6,8 +6,7 @@ from Transformation import *
 from Uniform import *
 
 class Camera:
-    def __init__(self, shader, w, h):
-        self.shader = shader
+    def __init__(self, w, h):
         self.screen_width = w
         self.screen_height = h
         self.transformation = identity_matrix()
@@ -18,7 +17,6 @@ class Camera:
         self.movement_sensitivities = 0.1
         self.projection_matrix = self.perspective_matrix(60, self.screen_width/self.screen_height, 0.01, 10000)
         self.projection = Uniform("mat4", self.projection_matrix)
-        self.projection.find_variable(self.shader, "projection_mat")
 
     def perspective_matrix(self, angle_of_view, aspect_ratio, near_plane, far_plane):
         a = radians(angle_of_view)
@@ -38,7 +36,7 @@ class Camera:
         if angle < 170 and pitch > 0 or angle > 30 and pitch < 0:
             self.transformation = rotate(self.transformation, pitch, "X", True)
 
-    def update(self):
+    def update(self, shader):
         if pygame.mouse.get_visible():
             return
 
@@ -61,9 +59,10 @@ class Camera:
         if keys[pygame.K_d]:
             self.transformation = translate(self.transformation, self.movement_sensitivities, 0, 0)
 
+        self.projection.find_variable(shader, "projection_mat")
         self.projection.load()
         lookat_mat = self.transformation
         lookat = Uniform("mat4", lookat_mat)
-        lookat.find_variable(self.shader, "view_mat")
+        lookat.find_variable(shader, "view_mat")
         lookat.load()
 

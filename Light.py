@@ -3,18 +3,17 @@ from Transformation import *
 from Uniform import *
 
 class Light:
-    def __init__(self, shader, position=pygame.Vector3(0, 0, 0), color=pygame.Vector3(1, 1, 1), light_numbers=0):
+    def __init__(self, position=pygame.Vector3(0, 0, 0), color=pygame.Vector3(1, 1, 1), light_numbers=0):
         self.transformation = identity_matrix()
-        self.shader = shader
         self.position = position
         self.color = color
         self.light_variable = "light_data[" + str(light_numbers) + "].position"
         self.color_variable = "light_data[" + str(light_numbers) + "].color"
 
-    def update(self):
+    def update(self, shader):
         light_pos = Uniform("vec3", self.position)
-        light_pos.find_variable(self.shader, self.light_variable)
+        light_pos.find_variable(shader, self.light_variable)
         light_pos.load()
         color = Uniform("vec3", self.color)
-        color.find_variable(self.shader, self.color_variable)
+        color.find_variable(shader, self.color_variable)
         color.load()

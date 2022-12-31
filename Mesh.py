@@ -6,14 +6,22 @@ from Transformation import *
 from Texture import *
 
 class Mesh:
-    def __init__(self, shader, image_file, vertices, vertex_normals, vertex_uvs, vertex_colors, gl_type,
+    def __init__(self,
+                 shader=None,
+                 image_file=None,
+                 vertices=None,
+                 vertex_normals=None,
+                 vertex_uvs=None,
+                 vertex_colors=None,
+                 gl_type=None,
                  translation=pygame.Vector3(0, 0, 0),
                  rotation=Rotation(0, pygame.Vector3(0, 1,0)),
                  scale=pygame.Vector3(1, 1, 1),
                  moving_rotation=Rotation(0, pygame.Vector3(0, 1, 0)),
                  moving_translation=pygame.Vector3(0, 0,0),
                  moving_scale=pygame.Vector3(1, 1, 1)):
-        self.shader = shader
+        self.shader = shader.shader
+        self.use_shader = shader.use()
         self.vertices = vertices
         self.vertex_normals = vertex_normals
         self.vertex_uvs = vertex_uvs
@@ -21,14 +29,18 @@ class Mesh:
         self.gl_type = gl_type
         self.vao = glGenVertexArrays(1)
         glBindVertexArray(self.vao)
-        position = BufferData("vec3", self.vertices)
-        position.create_buffer_data(self.shader, "position")
-        colors = BufferData("vec3", self.vertex_colors)
-        colors.create_buffer_data(self.shader, "vertex_color")
-        v_normals = BufferData("vec3", self.vertex_normals)
-        v_normals.create_buffer_data(self.shader, "vertex_normal")
-        v_uvs = BufferData("vec2", self.vertex_uvs)
-        v_uvs.create_buffer_data(self.shader, "vertex_uv")
+        if self.vertices is not None:
+            position = BufferData("vec3", self.vertices)
+            position.create_buffer_data(self.shader, "position")
+        if self.vertex_colors is not None:
+            colors = BufferData("vec3", self.vertex_colors)
+            colors.create_buffer_data(self.shader, "vertex_color")
+        if self.vertex_normals is not None:
+            v_normals = BufferData("vec3", self.vertex_normals)
+            v_normals.create_buffer_data(self.shader, "vertex_normal")
+        if self.vertex_uvs is not None:
+            v_uvs = BufferData("vec2", self.vertex_uvs)
+            v_uvs.create_buffer_data(self.shader, "vertex_uv")
         self.transformation_mat = identity_matrix()
         self.transformation_mat = rotate_mesh(self.transformation_mat, rotation.angle, rotation.axis)
         self.transformation_mat = translate(self.transformation_mat, translation.x, translation.y, translation.z)
@@ -38,13 +50,21 @@ class Mesh:
         self.moving_rotation = moving_rotation
         self.moving_translation = moving_translation
         self.moving_scale = moving_scale
-        self.image = Texture(image_file)
-        self.texture = Uniform("sampler2D", [self.image.texture_id, 1])
-        self.texture.find_variable(self.shader, "tex")
+        self.texture = None
+        if image_file is not None:
+            self.image = Texture(image_file)
+            self.texture = Uniform("sampler2D", [self.image.texture_id, 1])
+            self.texture.find_variable(self.shader, "tex")
 
 
-    def mesh_drawing(self):
-        self.texture.load()
+    def mesh_drawing(self, camera, lights):
+        self.use_shader
+        camera.update(self.shader)
+        if lights is not None:
+            for light in lights:
+                light.update(self.shader)
+        if self.texture is not None:
+            self.texture.load()
         self.transformation_mat = rotate_mesh(self.transformation_mat, self.moving_rotation.angle,
                                               self.moving_rotation.axis)
         self.transformation_mat = translate(self.transformation_mat, self.moving_translation.x, self.moving_translation.y,
