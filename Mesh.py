@@ -20,8 +20,7 @@ class Mesh:
                  moving_rotation=Rotation(0, pygame.Vector3(0, 1, 0)),
                  moving_translation=pygame.Vector3(0, 0,0),
                  moving_scale=pygame.Vector3(1, 1, 1)):
-        self.shader = shader.shader
-        self.use_shader = shader.use()
+        self.shader = shader
         self.vertices = vertices
         self.vertex_normals = vertex_normals
         self.vertex_uvs = vertex_uvs
@@ -31,22 +30,22 @@ class Mesh:
         glBindVertexArray(self.vao)
         if self.vertices is not None:
             position = BufferData("vec3", self.vertices)
-            position.create_buffer_data(self.shader, "position")
+            position.create_buffer_data(self.shader.shader, "position")
         if self.vertex_colors is not None:
             colors = BufferData("vec3", self.vertex_colors)
-            colors.create_buffer_data(self.shader, "vertex_color")
+            colors.create_buffer_data(self.shader.shader, "vertex_color")
         if self.vertex_normals is not None:
             v_normals = BufferData("vec3", self.vertex_normals)
-            v_normals.create_buffer_data(self.shader, "vertex_normal")
+            v_normals.create_buffer_data(self.shader.shader, "vertex_normal")
         if self.vertex_uvs is not None:
             v_uvs = BufferData("vec2", self.vertex_uvs)
-            v_uvs.create_buffer_data(self.shader, "vertex_uv")
+            v_uvs.create_buffer_data(self.shader.shader, "vertex_uv")
         self.transformation_mat = identity_matrix()
         self.transformation_mat = rotate_mesh(self.transformation_mat, rotation.angle, rotation.axis)
         self.transformation_mat = translate(self.transformation_mat, translation.x, translation.y, translation.z)
         self.transformation_mat = scale3(self.transformation_mat, scale.x, scale.y, scale.z)
         self.transformation_projection = Uniform("mat4", self.transformation_mat)
-        self.transformation_projection.find_variable(self.shader, "model_mat")
+        self.transformation_projection.find_variable(self.shader.shader, "model_mat")
         self.moving_rotation = moving_rotation
         self.moving_translation = moving_translation
         self.moving_scale = moving_scale
@@ -54,16 +53,16 @@ class Mesh:
         if image_file is not None:
             self.image = Texture(image_file)
             self.texture = Uniform("sampler2D", [self.image.texture_id, 1])
-            self.texture.find_variable(self.shader, "tex")
 
 
     def mesh_drawing(self, camera, lights):
-        self.use_shader
-        camera.update(self.shader)
+        self.shader.use()
+        camera.update(self.shader.shader)
         if lights is not None:
             for light in lights:
-                light.update(self.shader)
+                light.update(self.shader.shader)
         if self.texture is not None:
+            self.texture.find_variable(self.shader.shader, "tex")
             self.texture.load()
         self.transformation_mat = rotate_mesh(self.transformation_mat, self.moving_rotation.angle,
                                               self.moving_rotation.axis)
@@ -72,7 +71,7 @@ class Mesh:
         self.transformation_mat = scale3(self.transformation_mat, self.moving_scale.x, self.moving_scale.y,
                                               self.moving_scale.z)
         self.transformation_projection = Uniform("mat4", self.transformation_mat)
-        self.transformation_projection.find_variable(self.shader, "model_mat")
+        self.transformation_projection.find_variable(self.shader.shader, "model_mat")
         self.transformation_projection.load()
         glBindVertexArray(self.vao)
         glDrawArrays(self.gl_type, 0, len(self.vertices))

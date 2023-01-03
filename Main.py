@@ -53,8 +53,6 @@ class Engine:
                             color=pygame.Vector3(1, 0, 0), light_numbers=0))
         self.lights.append(Light(position=pygame.Vector3(-2, 1, -2),
                             color=pygame.Vector3(0, 1, 0), light_numbers=1))
-
-        self.world_axis = WorldAxis(self.axis_shader_program)
         #edit obj_file: vt data to control UV
         self.plane = LoadMesh('model/plane.obj', "texture/window.png", self.shader_program,
                              scale=pygame.Vector3(1, 1, 1),
@@ -65,7 +63,8 @@ class Engine:
                               rotation=Rotation(0, pygame.Vector3(0, 1, 0)),
                              moving_rotation=Rotation(1, pygame.Vector3(0, 1, 0)))
 
-        self.cube2 = Cube(self.shader_program)
+        self.cube2 = Cube(self.axis_shader_program, position=pygame.Vector3(0, 1, 0))
+        self.world_axis = WorldAxis(self.axis_shader_program)
         #enable depth buffer for handling small triangles on the edges of object - not aliasing
         glEnable(GL_DEPTH_TEST)
 
@@ -75,11 +74,11 @@ class Engine:
 
     def display(self):
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-        #self.world_axis.mesh_drawing(self.camera, None) #working on linux - not Windows
+        self.world_axis.mesh_drawing(self.camera, None) #working on linux - not Windows
         #self.square.mesh_drawing()
         #self.cube.mesh_drawing()
         #self.wall.mesh_drawing()
-        #self.cube.mesh_drawing(self.camera, self.lights)
+        self.cube.mesh_drawing(self.camera, self.lights)
         self.cube2.mesh_drawing(self.camera, None)
         #object with transparent texture must be drawed at last
         #self.plane.mesh_drawing(self.camera, self.lights)
