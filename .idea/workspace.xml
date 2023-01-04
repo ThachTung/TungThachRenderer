@@ -5,17 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="54bb3907-4272-4eed-978c-a96ba22d3bd3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/shader/pbrfrag.vs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shader/pbrver.vs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/texture/wallAO.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/texture/wallBC.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/texture/wallN.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/texture/wallR.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/TungThachRenderer.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/TungThachRenderer.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Mesh.py" beforeDir="false" afterPath="$PROJECT_DIR$/Mesh.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shader/pbrfrag.vs" beforeDir="false" afterPath="$PROJECT_DIR$/shader/pbrfrag.vs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
