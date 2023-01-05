@@ -64,10 +64,10 @@
             vec3 albedo = texture(tex, uv).rgb;
             float roughness = texture(tex_roughness, uv).r;
             float metallic = 0.0;
-            vec3 normal_texture = texture(tex, uv).rgb;
+            vec3 normal_texture = texture(tex_normal, uv).rgb;
 
             vec3 V = normalize(cam_pos - frag_pos);
-            vec3 N = normalize(normal);
+            vec3 N = normalize(normal + (normal_texture*2.0-1.0));
 
             vec3 F0 = vec3(0.04);
             F0 = mix(F0, albedo, metallic);
@@ -79,11 +79,11 @@
                 vec3 H = normalize(V + L);
                 float distance = length(light_data[i].position - frag_pos);
                 float attenuation = 1.0 / (distance * distance);
-                vec3 radiance = light_data[i].color * attenuation;
+                vec3 radiance = light_data[i].color * attenuation * 200.0;
 
                 //Cook-Torrance
                 float NDF = DistributionGGX(N, H, roughness);
-                float G = GeometrySchlickGGX(N, V, L, roughness);
+                float G = GeometrySmith(N, V, L, roughness);
                 vec3 F = FresnelSchlick(max(dot(H,V), 0.001), F0);
 
                 vec3 kS = F;
@@ -99,7 +99,7 @@
                 Lo += (kD * albedo/3.14159 + specular) * radiance * NdotL;
             }
             vec3 ambient = vec3(0.03) * albedo;
-            vec3 color = ambient _ Lo;
+            vec3 color = ambient + Lo;
 
             color = color / (color + vec3(1.0));
             color = pow(color, vec3(1.0/2.0));

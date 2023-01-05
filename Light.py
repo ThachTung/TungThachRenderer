@@ -3,7 +3,9 @@ from Transformation import *
 from Uniform import *
 
 class Light:
-    def __init__(self, position=pygame.Vector3(0, 0, 0), color=pygame.Vector3(1, 1, 1), light_numbers=0):
+    def __init__(self, position=pygame.Vector3(0, 0, 0),
+                 color=pygame.Vector3(1, 1, 1),
+                 light_numbers=0):
         self.transformation = identity_matrix()
         self.position = position
         self.color = color

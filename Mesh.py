@@ -9,6 +9,8 @@ class Mesh:
     def __init__(self,
                  shader=None,
                  image_file=None,
+                 image_normal=None,
+                 image_roughness=None,
                  vertices=None,
                  vertex_normals=None,
                  vertex_uvs=None,
@@ -50,9 +52,17 @@ class Mesh:
         self.moving_translation = moving_translation
         self.moving_scale = moving_scale
         self.texture = None
+        self.texture_normal = None
+        self.texture_roughness = None
         if image_file is not None:
             self.image = Texture(image_file)
             self.texture = Uniform("sampler2D", [self.image.texture_id, 1])
+        if image_normal is not None:
+            self.image_normal = Texture(image_normal)
+            self.texture_normal = Uniform("sampler2D", [self.image_normal.texture_id, 2])
+        if image_roughness is not None:
+            self.image_roughness = Texture(image_roughness)
+            self.texture_roughness = Uniform("sampler2D", [self.image_roughness.texture_id, 3])
 
 
     def mesh_drawing(self, camera, lights):
@@ -64,6 +74,12 @@ class Mesh:
         if self.texture is not None:
             self.texture.find_variable(self.shader.shader, "tex")
             self.texture.load()
+        if self.texture_normal is not None:
+            self.texture_normal.find_variable(self.shader.shader, "tex_normal")
+            self.texture_normal.load()
+        if self.texture_roughness is not None:
+            self.texture_roughness.find_variable(self.shader.shader, "tex_roughness")
+            self.texture_roughness.load()
         self.transformation_mat = rotate_mesh(self.transformation_mat, self.moving_rotation.angle,
                                               self.moving_rotation.axis)
         self.transformation_mat = translate(self.transformation_mat, self.moving_translation.x, self.moving_translation.y,

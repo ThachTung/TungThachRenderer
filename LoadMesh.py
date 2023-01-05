@@ -7,6 +7,8 @@ class LoadMesh(Mesh):
     def __init__(self,
                  path=None,
                  image_file=None,
+                 image_normal=None,
+                 image_roughness=None,
                  shader=None,
                  gl_type=GL_TRIANGLES,
                  position=pygame.Vector3(0, 0, 0),
@@ -24,8 +26,21 @@ class LoadMesh(Mesh):
             colors.append(1) #random.random() to have random colors
             colors.append(1)
             colors.append(1)
-        super().__init__(shader, image_file, vertices, vertex_normals, vertex_uvs, colors, gl_type, position, rotation, scale,
-                         moving_rotation, moving_translation, moving_scale)
+        super().__init__(shader=shader,
+                         image_file=image_file,
+                         image_normal=image_normal,
+                         image_roughness=image_roughness,
+                         vertices=vertices,
+                         vertex_normals=vertex_normals,
+                         vertex_uvs=vertex_uvs,
+                         vertex_colors=None,
+                         gl_type=gl_type,
+                         translation=position,
+                         rotation=rotation,
+                         scale=scale,
+                         moving_rotation=moving_rotation,
+                         moving_translation=moving_translation,
+                         moving_scale=moving_scale)
 
 
     def loading(self, path):
@@ -59,4 +74,5 @@ class LoadMesh(Mesh):
                     normals_ind.append([int(value) for value in f2.split('/')][2] - 1)
                     normals_ind.append([int(value) for value in f3.split('/')][2] - 1)
                 line = mesh_file.readline()
+
         return vertices, triangles, normals, normals_ind, uvs, uvs_ind
