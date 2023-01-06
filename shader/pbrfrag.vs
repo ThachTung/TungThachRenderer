@@ -5,6 +5,7 @@
         in vec2 uv;
         in vec3 frag_pos;
         in vec3 cam_pos;
+        in vec3 tangent;
         out vec4 frag_color;
 
         uniform sampler2D tex;
@@ -67,7 +68,7 @@
             vec3 normal_texture = texture(tex_normal, uv).rgb;
 
             vec3 V = normalize(cam_pos - frag_pos);
-            vec3 N = normalize(normal + (normal_texture*2.0-1.0));
+            vec3 N = normalize(normal + (normal_texture*2.0-1.0)*tangent);
 
             vec3 F0 = vec3(0.04);
             F0 = mix(F0, albedo, metallic);

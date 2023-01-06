@@ -61,7 +61,7 @@ class Engine:
         self.wall = LoadMesh(path="model/wall.obj", image_file="texture/wallBC.png", image_normal="texture/wallN.png",
                              image_roughness="texture/wallR.png", shader=self.shader_program,
                              position=pygame.Vector3(0, 0, 0),
-                             rotation=Rotation(180, pygame.Vector3(0, 1,0)))
+                             rotation=Rotation(0, pygame.Vector3(0, 1,0)))
         '''
         #edit obj_file: vt data to control UV
         self.plane = LoadMesh('model/plane.obj', "texture/window.png", self.shader_program,
