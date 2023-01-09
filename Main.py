@@ -55,13 +55,16 @@ class Engine:
         self.camera = Camera(self.screen_width, self.screen_height)
         self.lights.append(Light(position=pygame.Vector3(0, 5, 5),
                             color=pygame.Vector3(1, 1, 1), light_numbers=0))
+        '''
         self.lights.append(Light(position=pygame.Vector3(0, 5, -6),
                                  color=pygame.Vector3(1, 1, 1), light_numbers=1))
+        '''
 
         self.wall = LoadMesh(path="model/wall.obj", image_file="texture/wallBC.png", image_normal="texture/wallN.png",
                              image_roughness="texture/wallR.png", shader=self.shader_program,
                              position=pygame.Vector3(0, 0, 0),
-                             rotation=Rotation(0, pygame.Vector3(0, 1,0)))
+                             rotation=Rotation(0, pygame.Vector3(0, 1, 0)),
+                             moving_rotation=Rotation(1, pygame.Vector3(0, 1, 0)))
         '''
         #edit obj_file: vt data to control UV
         self.plane = LoadMesh('model/plane.obj', "texture/window.png", self.shader_program,

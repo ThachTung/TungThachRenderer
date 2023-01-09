@@ -1,11 +1,10 @@
 #version 330 core
 
         in vec3 color;
-        in vec3 normal;
         in vec2 uv;
         in vec3 frag_pos;
         in vec3 cam_pos;
-        in vec3 tangent;
+        in mat3 normal;
         out vec4 frag_color;
 
         uniform sampler2D tex;
@@ -68,7 +67,7 @@
             vec3 normal_texture = texture(tex_normal, uv).rgb;
 
             vec3 V = normalize(cam_pos - frag_pos);
-            vec3 N = normalize(normal + (normal_texture*2.0-1.0)*tangent);
+            vec3 N = normalize(normal * (normal_texture*2.0-1.0));
 
             vec3 F0 = vec3(0.04);
             F0 = mix(F0, albedo, metallic);
@@ -76,7 +75,8 @@
             vec3 Lo = vec3(0.0);
             for (int i=0; i < NUM_LIGHTS; i++)
             {
-                vec3 L = normalize(light_data[i].position - frag_pos);
+                vec3 L = normalize(light_data[i].position);
+                //vec3 L = normalize(light_data[i].position - frag_pos);
                 vec3 H = normalize(V + L);
                 float distance = length(light_data[i].position - frag_pos);
                 float attenuation = 1.0 / (distance * distance);

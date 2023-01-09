@@ -18,11 +18,12 @@ class LoadMesh(Mesh):
                  moving_rotation=Rotation(0, pygame.Vector3(0, 1, 0)),
                  moving_translation=pygame.Vector3(0, 0,0),
                  moving_scale=pygame.Vector3(1, 1, 1)):
-        coordinates, triangles, normals, normals_ind, uvs, uvs_ind, tangent = self.loading(path)
+        coordinates, triangles, normals, normals_ind, uvs, uvs_ind, tangent, bitangent = self.loading(path)
         vertices = format_vertices(coordinates, triangles)
         vertex_normals = format_vertices(normals, normals_ind)
         vertex_uvs = format_vertices(uvs, uvs_ind)
-        vertex_tangents = format_vertices(tangent, triangles)
+        vertex_tangents = format_vertices(tangent, normals_ind)
+        vertex_bitangents = format_vertices(bitangent, normals_ind)
         colors = []
         for c in range(len(vertices)):
             colors.append(1) #random.random() to have random colors
@@ -34,6 +35,8 @@ class LoadMesh(Mesh):
                          image_roughness=image_roughness,
                          vertices=vertices,
                          vertex_normals=vertex_normals,
+                         vertex_tangents=vertex_tangents,
+                         vertex_bitangents=vertex_bitangents,
                          vertex_uvs=vertex_uvs,
                          vertex_colors=None,
                          gl_type=gl_type,
@@ -42,8 +45,7 @@ class LoadMesh(Mesh):
                          scale=scale,
                          moving_rotation=moving_rotation,
                          moving_translation=moving_translation,
-                         moving_scale=moving_scale,
-                         vertex_tangents=vertex_tangents)
+                         moving_scale=moving_scale)
 
 
     def loading(self, path):
@@ -54,6 +56,7 @@ class LoadMesh(Mesh):
         uvs = []
         uvs_ind = []
         tangent = []
+        bitangent = []
         with open(path) as mesh_file:
             line = mesh_file.readline()
             while line:
@@ -82,4 +85,5 @@ class LoadMesh(Mesh):
         scene = pyassimp.load(path, processing=pyassimp.postprocess.aiProcess_CalcTangentSpace)
         for index, mesh in enumerate(scene.meshes):
             tangent = mesh.tangents
-        return vertices, triangles, normals, normals_ind, uvs, uvs_ind, tangent
+            bitangent = mesh.bitangents
+        return vertices, triangles, normals, normals_ind, uvs, uvs_ind, tangent, bitangent

@@ -14,6 +14,7 @@ class Mesh:
                  vertices=None,
                  vertex_normals=None,
                  vertex_tangents=None,
+                 vertex_bitangents=None,
                  vertex_uvs=None,
                  vertex_colors=None,
                  gl_type=None,
@@ -27,6 +28,7 @@ class Mesh:
         self.vertices = vertices
         self.vertex_normals = vertex_normals
         self.vertex_tangents = vertex_tangents
+        self.vertex_bitangents = vertex_bitangents
         self.vertex_uvs = vertex_uvs
         self.vertex_colors = vertex_colors
         self.gl_type = gl_type
@@ -44,6 +46,9 @@ class Mesh:
         if self.vertex_tangents is not None:
             v_tangents = BufferData("vec3", self.vertex_tangents)
             v_tangents.create_buffer_data(self.shader.shader, "vertex_tangent")
+        if self.vertex_bitangents is not None:
+            v_bitangents = BufferData("vec3", self.vertex_bitangents)
+            v_bitangents.create_buffer_data(self.shader.shader, "vertex_bitangent")
         if self.vertex_uvs is not None:
             v_uvs = BufferData("vec2", self.vertex_uvs)
             v_uvs.create_buffer_data(self.shader.shader, "vertex_uv")
