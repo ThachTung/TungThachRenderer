@@ -1,18 +1,12 @@
-import pygame
 from pygame.locals import *
-from OpenGL.GL import *
-from OpenGL.GLU import *
-from LoadBufferData import *
 from Camera import *
 from WorldAxis import *
-from Square import *
-from Cube import *
 from LoadMesh import *
 from Light import *
 from Material import *
-import LoadShader
-import pyassimp
+from Ui import *
 import os
+
 
 class Engine:
     def __init__(self):
@@ -29,7 +23,6 @@ class Engine:
         os.environ['SDL_VIDEO_WINDOW_POS'] = "%d, %d" % (self.x_location, self.y_location)
 
         pygame.init()
-
         self.screen_width = 1000
         self.screen_height = 800
         self.background_color = (0.0, 0.0, 0.0, 1.0)
@@ -46,8 +39,11 @@ class Engine:
         self.vao = None
         self.clock = pygame.time.Clock()
 
+        self.ui = Ui()
+
         #only see 1 side of face
         glEnable(GL_CULL_FACE)
+
     def load_shader(self):
         #self.shader_program = Material(self.vertex_shader, self.fragment_shader)
         self.shader_program = Material(self.pbr_vertex_shader, self.pbr_fragment_shader)
@@ -63,8 +59,7 @@ class Engine:
         self.wall = LoadMesh(path="model/wall.obj", image_file="texture/wallBC.png", image_normal="texture/wallN.png",
                              image_roughness="texture/wallR.png", shader=self.shader_program,
                              position=pygame.Vector3(0, 0, 0),
-                             rotation=Rotation(0, pygame.Vector3(0, 1, 0)),
-                             moving_rotation=Rotation(1, pygame.Vector3(0, 1, 0)))
+                             rotation=Rotation(0, pygame.Vector3(0, 1, 0)))
         '''
         #edit obj_file: vt data to control UV
         self.plane = LoadMesh('model/plane.obj', "texture/window.png", self.shader_program,
@@ -97,13 +92,13 @@ class Engine:
         #object with transparent texture must be drawed at last
         #self.plane.mesh_drawing(self.camera, self.lights)
 
-
     def main_loop(self):
         done = False
         self.load_shader()
         pygame.event.set_grab(True)
         pygame.mouse.set_visible(False)
         while not done:
+            self.ui.update()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     done = True
@@ -118,7 +113,6 @@ class Engine:
             # swap buffer
             pygame.display.flip()
             self.clock.tick(60)
-
         pygame.quit()
 
 Engine().main_loop()
