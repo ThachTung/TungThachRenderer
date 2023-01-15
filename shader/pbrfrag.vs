@@ -15,6 +15,7 @@
         {
             vec3 position;
             vec3 color;
+            float intensity;
         };
 
         #define NUM_LIGHTS 2
@@ -80,7 +81,7 @@
                 vec3 H = normalize(V + L);
                 float distance = length(light_data[i].position - frag_pos);
                 float attenuation = 1.0 / (distance * distance);
-                vec3 radiance = light_data[i].color * attenuation * 200.0;
+                vec3 radiance = light_data[i].color * attenuation * light_data[i].intensity;
 
                 //Cook-Torrance
                 float NDF = DistributionGGX(N, H, roughness);
