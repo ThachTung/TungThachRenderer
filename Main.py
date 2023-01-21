@@ -1,3 +1,4 @@
+import pygame
 from pygame.locals import *
 from Camera import *
 from WorldAxis import *
@@ -6,7 +7,6 @@ from Light import *
 from Material import *
 from Ui import *
 import os
-
 
 class Engine:
     def __init__(self):
@@ -18,14 +18,14 @@ class Engine:
         self.pbr_fragment_shader = "shader/pbrfrag.vs"
 
         # constant location of pygame window
-        self.x_location = 500
-        self.y_location = 150
+        self.x_location = 0
+        self.y_location = 0
         os.environ['SDL_VIDEO_WINDOW_POS'] = "%d, %d" % (self.x_location, self.y_location)
 
         pygame.init()
 
-        self.screen_width = 1000
-        self.screen_height = 800
+        self.screen_width = 1920
+        self.screen_height = 1080
         self.background_color = (0.0, 0.0, 0.0, 1.0)
         self.drawing_color = (1.0, 1.0, 1.0, 1.0)
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height), DOUBLEBUF | OPENGL)
@@ -45,12 +45,18 @@ class Engine:
         #only see 1 side of face
         glEnable(GL_CULL_FACE)
 
+
     def load_shader(self):
         self.camera = Camera(self.screen_width, self.screen_height)
 
-        self.wall = LoadMesh(path="model/wall.obj", image_file="texture/wallBC.png", image_normal="texture/wallN.png",
-                             image_roughness="texture/wallR.png", shader=self.shader_program,
+        self.wall = LoadMesh(path="model/cad_dry_box.obj",
+                             image_file="texture/tex_box_Base_color.png",
+                             image_normal="texture/tex_box_Normal_OpenGL.png",
+                             image_roughness="texture/tex_box_Roughness.png",
+                             image_metallic="texture/tex_box_Metallic.png",
+                             shader=self.shader_program,
                              position=pygame.Vector3(0, 0, 0),
+                             scale=pygame.Vector3(0.5,0.5,0.5),
                              rotation=Rotation(0, pygame.Vector3(0, 1, 0)))
 
         self.world_axis = WorldAxis(self.axis_shader_program)
@@ -61,9 +67,12 @@ class Engine:
         glEnable(GL_BLEND)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
+        #gamma correction enabled
+        #glEnable(GL_FRAMEBUFFER_SRGB)
+
     def display(self):
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-        self.world_axis.mesh_drawing(self.camera, None)
+        #self.world_axis.mesh_drawing(self.camera, None)
         self.wall.mesh_drawing(self.camera, self.lights)
 
     def main_loop(self):
@@ -72,7 +81,6 @@ class Engine:
         pygame.event.set_grab(True)
         pygame.mouse.set_visible(False)
         while not done:
-            self.ui.update()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     done = True
@@ -83,6 +91,7 @@ class Engine:
                     if event.key == K_SPACE:
                         pygame.mouse.set_visible(False)
                         pygame.event.set_grab(True)
+            self.ui.update()
             self.display()
             # swap buffer
             pygame.display.flip()

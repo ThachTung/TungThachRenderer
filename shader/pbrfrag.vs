@@ -10,6 +10,7 @@
         uniform sampler2D tex;
         uniform sampler2D tex_roughness;
         uniform sampler2D tex_normal;
+        uniform sampler2D tex_metallic;
 
         struct Light
         {
@@ -18,7 +19,7 @@
             float intensity;
         };
 
-        #define NUM_LIGHTS 2
+        #define NUM_LIGHTS 100
         uniform Light light_data[NUM_LIGHTS];
 
         //----------------------- BRDF ---------------------
@@ -64,14 +65,13 @@
             vec3 light_color = vec3(1, 0, 0);
             vec3 albedo = texture(tex, uv).rgb;
             float roughness = texture(tex_roughness, uv).r;
-            float metallic = 0.0;
+            float metallic = texture(tex_metallic, uv).r;
             vec3 normal_texture = texture(tex_normal, uv).rgb;
 
             vec3 V = normalize(cam_pos - frag_pos);
             vec3 N = normalize(normal * (normal_texture*2.0-1.0));//not an optimize solution
 
-            vec3 F0 = vec3(0.04);
-            F0 = mix(F0, albedo, metallic);
+            vec3 F0 = mix(vec3(0.04), albedo, metallic);
 
             vec3 Lo = vec3(0.0);
             for (int i=0; i < NUM_LIGHTS; i++)
@@ -103,8 +103,8 @@
             vec3 ambient = vec3(0.03) * albedo;
             vec3 color = ambient + Lo;
 
-            color = color / (color + vec3(1.0));
-            color = pow(color, vec3(1.0/2.0));
+            //color = color / (color + vec3(1.0));
+            //color = pow(color, vec3(1.0/2.0));
 
             frag_color = vec4(color, 1.0);
         }

@@ -11,6 +11,7 @@ class Mesh:
                  image_file=None,
                  image_normal=None,
                  image_roughness=None,
+                 image_metallic=None,
                  vertices=None,
                  vertex_normals=None,
                  vertex_tangents=None,
@@ -73,6 +74,9 @@ class Mesh:
         if image_roughness is not None:
             self.image_roughness = Texture(image_roughness)
             self.texture_roughness = Uniform("sampler2D", [self.image_roughness.texture_id, 3])
+        if image_metallic is not None:
+            self.image_metallic = Texture(image_metallic)
+            self.texture_metallic = Uniform("sampler2D", [self.image_metallic.texture_id, 4])
 
 
     def mesh_drawing(self, camera, lights):
@@ -90,6 +94,9 @@ class Mesh:
         if self.texture_roughness is not None:
             self.texture_roughness.find_variable(self.shader.shader, "tex_roughness")
             self.texture_roughness.load()
+        if self.texture_metallic is not None:
+            self.texture_metallic.find_variable(self.shader.shader, "tex_metallic")
+            self.texture_metallic.load()
         self.transformation_mat = rotate_mesh(self.transformation_mat, self.moving_rotation.angle,
                                               self.moving_rotation.axis)
         self.transformation_mat = translate(self.transformation_mat, self.moving_translation.x, self.moving_translation.y,

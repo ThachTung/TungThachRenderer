@@ -13,8 +13,8 @@ class Camera:
         self.yaw = 90
         self.pitch = 0
         self.last_mouse = pygame.math.Vector2(0, 0)
-        self.mouse_sensitivities = 0.01
-        self.movement_sensitivities = 0.1
+        self.mouse_sensitivities = 0.1
+        self.movement_sensitivities = 0.5
         self.projection_matrix = self.perspective_matrix(60, self.screen_width/self.screen_height, 0.01, 10000)
         self.projection = Uniform("mat4", self.projection_matrix)
 
