@@ -4,31 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="54bb3907-4272-4eed-978c-a96ba22d3bd3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/texture/tex_box_Base_color.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/texture/tex_box_Metallic.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/texture/tex_box_Normal_OpenGL.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/texture/tex_box_Roughness.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Camera.py" beforeDir="false" afterPath="$PROJECT_DIR$/Camera.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoadMesh.py" beforeDir="false" afterPath="$PROJECT_DIR$/LoadMesh.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Mesh.py" beforeDir="false" afterPath="$PROJECT_DIR$/Mesh.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Ui.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ui.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/imgui.ini" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/cube.obj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/plane.obj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/wall.obj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_stuffs/MovingCube.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old_stuffs/MovingMesh.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/shader/pbrfrag.vs" beforeDir="false" afterPath="$PROJECT_DIR$/shader/pbrfrag.vs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/texture/crate.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/texture/wallAO.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/texture/wallBC.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/texture/wallN.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/texture/wallR.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/texture/window.png" beforeDir="false" />
-    </list>
+    <list default="true" id="54bb3907-4272-4eed-978c-a96ba22d3bd3" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
