@@ -1,2 +1,2 @@
 # TungThachRenderer
-a personal 3D Render
+a personal 3d renderer
