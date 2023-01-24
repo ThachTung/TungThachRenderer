@@ -18,14 +18,14 @@ class Engine:
         self.pbr_fragment_shader = "shader/pbrfrag.vs"
 
         # constant location of pygame window
-        self.x_location = 0
-        self.y_location = 0
+        self.x_location = 100
+        self.y_location = 100
         os.environ['SDL_VIDEO_WINDOW_POS'] = "%d, %d" % (self.x_location, self.y_location)
 
         pygame.init()
 
-        self.screen_width = 1920
-        self.screen_height = 1080
+        self.screen_width = 1880
+        self.screen_height = 920
         self.background_color = (0.0, 0.0, 0.0, 1.0)
         self.drawing_color = (1.0, 1.0, 1.0, 1.0)
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height), DOUBLEBUF | OPENGL)
