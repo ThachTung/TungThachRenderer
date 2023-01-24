@@ -1,3 +1,6 @@
+This file will be clean in future.
+Right now, it is the list of used, unused, testing modules that i installed.
+
 alabaster==0.7.12
 Babel==2.11.0
 click==8.1.3
